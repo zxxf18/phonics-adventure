@@ -1,0 +1,1250 @@
+[
+  {
+    "index": 1,
+    "symbol": "/iː/",
+    "phonemeAudio": "/media/phonics/phonemes/01.aac",
+    "video": "/media/phonics/videos/01.mp4",
+    "words": [
+      {
+        "word": "bee",
+        "ipa": "/biː/",
+        "meaning": "n. 蜜蜂",
+        "audio": "/media/phonics/words/bee.aac"
+      },
+      {
+        "word": "we",
+        "ipa": "/wiː/",
+        "meaning": "pron. 我们",
+        "audio": "/media/phonics/words/we.aac"
+      },
+      {
+        "word": "read",
+        "ipa": "/riːd/",
+        "meaning": "vt. 阅读",
+        "audio": "/media/phonics/words/read.aac"
+      }
+    ]
+  },
+  {
+    "index": 2,
+    "symbol": "/ɜː/",
+    "phonemeAudio": "/media/phonics/phonemes/02.aac",
+    "video": "/media/phonics/videos/02.mp4",
+    "words": [
+      {
+        "word": "bird",
+        "ipa": "/bɜːd/",
+        "meaning": "n. 鸟",
+        "audio": "/media/phonics/words/bird.aac"
+      },
+      {
+        "word": "word",
+        "ipa": "/wɜːd/",
+        "meaning": "n. 单词",
+        "audio": "/media/phonics/words/word.aac"
+      },
+      {
+        "word": "work",
+        "ipa": "/wɜːk/",
+        "meaning": "n. 工作",
+        "audio": "/media/phonics/words/work.aac"
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "symbol": "/ɑː/",
+    "phonemeAudio": "/media/phonics/phonemes/03.aac",
+    "video": "/media/phonics/videos/03.mp4",
+    "words": [
+      {
+        "word": "mark",
+        "ipa": "/mɑːk/",
+        "meaning": "n. 标志",
+        "audio": "/media/phonics/words/mark.aac"
+      },
+      {
+        "word": "shark",
+        "ipa": "/ʃɑːk/",
+        "meaning": "n. 鲨鱼",
+        "audio": "/media/phonics/words/shark.aac"
+      },
+      {
+        "word": "father",
+        "ipa": "/fɑːðə/",
+        "meaning": "n. 父亲",
+        "audio": "/media/phonics/words/father.aac"
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "symbol": "/ɔː/",
+    "phonemeAudio": "/media/phonics/phonemes/04.aac",
+    "video": "/media/phonics/videos/04.mp4",
+    "words": [
+      {
+        "word": "caught",
+        "ipa": "/kɔːt/",
+        "meaning": "v. 捕捉",
+        "audio": "/media/phonics/words/caught.aac"
+      },
+      {
+        "word": "walk",
+        "ipa": "/wɔːk/",
+        "meaning": "n. 步行",
+        "audio": "/media/phonics/words/walk.aac"
+      },
+      {
+        "word": "board",
+        "ipa": "/bɔːd/",
+        "meaning": "n.甲板",
+        "audio": "/media/phonics/words/board.aac"
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "symbol": "/uː/",
+    "phonemeAudio": "/media/phonics/phonemes/05.aac",
+    "video": "/media/phonics/videos/05.mp4",
+    "words": [
+      {
+        "word": "cool",
+        "ipa": "/kuːl/",
+        "meaning": "adj. 凉爽的",
+        "audio": "/media/phonics/words/cool.aac"
+      },
+      {
+        "word": "rude",
+        "ipa": "/ruːd/",
+        "meaning": "adj. 粗鲁的",
+        "audio": "/media/phonics/words/rude.aac"
+      },
+      {
+        "word": "tooth",
+        "ipa": "/tuːθ/",
+        "meaning": "n. 牙齿",
+        "audio": "/media/phonics/words/tooth.aac"
+      }
+    ]
+  },
+  {
+    "index": 6,
+    "symbol": "/ɪ/",
+    "phonemeAudio": "/media/phonics/phonemes/06.aac",
+    "video": "/media/phonics/videos/06.mp4",
+    "words": [
+      {
+        "word": "little",
+        "ipa": "/lɪtl/",
+        "meaning": "adj. 很少的",
+        "audio": "/media/phonics/words/little.aac"
+      },
+      {
+        "word": "sit",
+        "ipa": "/sɪt/",
+        "meaning": "vi. 坐",
+        "audio": "/media/phonics/words/sit.aac"
+      },
+      {
+        "word": "fish",
+        "ipa": "/fɪʃ/",
+        "meaning": "n. 鱼",
+        "audio": "/media/phonics/words/fish.aac"
+      }
+    ]
+  },
+  {
+    "index": 7,
+    "symbol": "/e/",
+    "phonemeAudio": "/media/phonics/phonemes/07.aac",
+    "video": "/media/phonics/videos/07.mp4",
+    "words": [
+      {
+        "word": "bed",
+        "ipa": "/bed/",
+        "meaning": "n. 床",
+        "audio": "/media/phonics/words/bed.aac"
+      },
+      {
+        "word": "red",
+        "ipa": "/red/",
+        "meaning": "n. 红色",
+        "audio": "/media/phonics/words/red.aac"
+      },
+      {
+        "word": "egg",
+        "ipa": "/eg/",
+        "meaning": "n. 蛋",
+        "audio": "/media/phonics/words/egg.aac"
+      }
+    ]
+  },
+  {
+    "index": 8,
+    "symbol": "/æ/",
+    "phonemeAudio": "/media/phonics/phonemes/08.aac",
+    "video": "/media/phonics/videos/08.mp4",
+    "words": [
+      {
+        "word": "mass",
+        "ipa": "/mæs/",
+        "meaning": "n. 块",
+        "audio": "/media/phonics/words/mass.aac"
+      },
+      {
+        "word": "ant",
+        "ipa": "/ænt/",
+        "meaning": "n. 蚂蚁",
+        "audio": "/media/phonics/words/ant.aac"
+      },
+      {
+        "word": "lamb",
+        "ipa": "/læm/",
+        "meaning": "n. 羔羊",
+        "audio": "/media/phonics/words/lamb.aac"
+      }
+    ]
+  },
+  {
+    "index": 9,
+    "symbol": "/ə/",
+    "phonemeAudio": "/media/phonics/phonemes/09.aac",
+    "video": "/media/phonics/videos/09.mp4",
+    "words": [
+      {
+        "word": "center",
+        "ipa": "/sentə/",
+        "meaning": "n. 中心",
+        "audio": "/media/phonics/words/center.aac"
+      },
+      {
+        "word": "panda",
+        "ipa": "/pændə/",
+        "meaning": "n. 熊猫",
+        "audio": "/media/phonics/words/panda.aac"
+      },
+      {
+        "word": "actor",
+        "ipa": "/æktə/",
+        "meaning": "n. 男演员",
+        "audio": "/media/phonics/words/actor.aac"
+      }
+    ]
+  },
+  {
+    "index": 10,
+    "symbol": "/ʌ/",
+    "phonemeAudio": "/media/phonics/phonemes/10.aac",
+    "video": "/media/phonics/videos/10.mp4",
+    "words": [
+      {
+        "word": "cup",
+        "ipa": "/kʌp/",
+        "meaning": "n. 杯子",
+        "audio": "/media/phonics/words/cup.aac"
+      },
+      {
+        "word": "bus",
+        "ipa": "/bʌs/",
+        "meaning": "n. 公共汽车",
+        "audio": "/media/phonics/words/bus.aac"
+      },
+      {
+        "word": "sun",
+        "ipa": "/sʌn/",
+        "meaning": "n. 太阳",
+        "audio": "/media/phonics/words/sun.aac"
+      }
+    ]
+  },
+  {
+    "index": 11,
+    "symbol": "/ɒ/",
+    "phonemeAudio": "/media/phonics/phonemes/11.aac",
+    "video": "/media/phonics/videos/11.mp4",
+    "words": [
+      {
+        "word": "dog",
+        "ipa": "/dɒg/",
+        "meaning": "n. 狗",
+        "audio": "/media/phonics/words/dog.aac"
+      },
+      {
+        "word": "box",
+        "ipa": "/bɒks/",
+        "meaning": "n. 箱",
+        "audio": "/media/phonics/words/box.aac"
+      },
+      {
+        "word": "stop",
+        "ipa": "/stɒp/",
+        "meaning": "vi. 停止",
+        "audio": "/media/phonics/words/stop.aac"
+      }
+    ]
+  },
+  {
+    "index": 12,
+    "symbol": "/ʊ/",
+    "phonemeAudio": "/media/phonics/phonemes/12.aac",
+    "video": "/media/phonics/videos/12.mp4",
+    "words": [
+      {
+        "word": "book",
+        "ipa": "/bʊk/",
+        "meaning": "n. 书籍",
+        "audio": "/media/phonics/words/book.aac"
+      },
+      {
+        "word": "good",
+        "ipa": "/gʊd/",
+        "meaning": "adj. 好的",
+        "audio": "/media/phonics/words/good.aac"
+      },
+      {
+        "word": "full",
+        "ipa": "/fʊl/",
+        "meaning": "adj. 满的",
+        "audio": "/media/phonics/words/full.aac"
+      }
+    ]
+  },
+  {
+    "index": 13,
+    "symbol": "/eɪ/",
+    "phonemeAudio": "/media/phonics/phonemes/13.aac",
+    "video": "/media/phonics/videos/13.mp4",
+    "words": [
+      {
+        "word": "wait",
+        "ipa": "/weɪt/",
+        "meaning": "vt. 等候",
+        "audio": "/media/phonics/words/wait.aac"
+      },
+      {
+        "word": "late",
+        "ipa": "/leɪt/",
+        "meaning": "adj. 晚的",
+        "audio": "/media/phonics/words/late.aac"
+      },
+      {
+        "word": "hate",
+        "ipa": "/heɪt/",
+        "meaning": "vt. 憎恨",
+        "audio": "/media/phonics/words/hate.aac"
+      }
+    ]
+  },
+  {
+    "index": 14,
+    "symbol": "/aɪ/",
+    "phonemeAudio": "/media/phonics/phonemes/14.aac",
+    "video": "/media/phonics/videos/14.mp4",
+    "words": [
+      {
+        "word": "my",
+        "ipa": "/maɪ/",
+        "meaning": "pron. 我的",
+        "audio": "/media/phonics/words/my.aac"
+      },
+      {
+        "word": "why",
+        "ipa": "/waɪ/",
+        "meaning": "adv. 为什么",
+        "audio": "/media/phonics/words/why.aac"
+      },
+      {
+        "word": "write",
+        "ipa": "/raɪt/",
+        "meaning": "vi. 写",
+        "audio": "/media/phonics/words/write.aac"
+      }
+    ]
+  },
+  {
+    "index": 15,
+    "symbol": "/ɔɪ/",
+    "phonemeAudio": "/media/phonics/phonemes/15.aac",
+    "video": "/media/phonics/videos/15.mp4",
+    "words": [
+      {
+        "word": "noise",
+        "ipa": "/nɔɪz/",
+        "meaning": "n. 噪音",
+        "audio": "/media/phonics/words/noise.aac"
+      },
+      {
+        "word": "point",
+        "ipa": "/pɔɪnt/",
+        "meaning": "n. 得分",
+        "audio": "/media/phonics/words/point.aac"
+      },
+      {
+        "word": "oil",
+        "ipa": "/ɔɪl/",
+        "meaning": "n. 油",
+        "audio": "/media/phonics/words/oil.aac"
+      }
+    ]
+  },
+  {
+    "index": 16,
+    "symbol": "/aʊ/",
+    "phonemeAudio": "/media/phonics/phonemes/16.aac",
+    "video": "/media/phonics/videos/16.mp4",
+    "words": [
+      {
+        "word": "mouse",
+        "ipa": "/maʊs/",
+        "meaning": "n. 鼠标",
+        "audio": "/media/phonics/words/mouse.aac"
+      },
+      {
+        "word": "town",
+        "ipa": "/taʊn/",
+        "meaning": "n. 城镇",
+        "audio": "/media/phonics/words/town.aac"
+      },
+      {
+        "word": "cloud",
+        "ipa": "/klaʊd/",
+        "meaning": "n. 云",
+        "audio": "/media/phonics/words/cloud.aac"
+      }
+    ]
+  },
+  {
+    "index": 17,
+    "symbol": "/əʊ/",
+    "phonemeAudio": "/media/phonics/phonemes/17.aac",
+    "video": "/media/phonics/videos/17.mp4",
+    "words": [
+      {
+        "word": "pose",
+        "ipa": "/pəʊz/",
+        "meaning": "n. 姿势",
+        "audio": "/media/phonics/words/pose.aac"
+      },
+      {
+        "word": "mode",
+        "ipa": "/məʊd/",
+        "meaning": "n. 模式",
+        "audio": "/media/phonics/words/mode.aac"
+      },
+      {
+        "word": "know",
+        "ipa": "/nəʊ/",
+        "meaning": "vt. 知道",
+        "audio": "/media/phonics/words/know.aac"
+      }
+    ]
+  },
+  {
+    "index": 18,
+    "symbol": "/ɪə/",
+    "phonemeAudio": "/media/phonics/phonemes/18.aac",
+    "video": "/media/phonics/videos/18.mp4",
+    "words": [
+      {
+        "word": "beer",
+        "ipa": "/bɪə/",
+        "meaning": "n. 啤酒",
+        "audio": "/media/phonics/words/beer.aac"
+      },
+      {
+        "word": "mere",
+        "ipa": "/mɪə/",
+        "meaning": "n. 小湖",
+        "audio": "/media/phonics/words/mere.aac"
+      },
+      {
+        "word": "deer",
+        "ipa": "/dɪə/",
+        "meaning": "n. 鹿",
+        "audio": "/media/phonics/words/deer.aac"
+      }
+    ]
+  },
+  {
+    "index": 19,
+    "symbol": "/eə/",
+    "phonemeAudio": "/media/phonics/phonemes/19.aac",
+    "video": "/media/phonics/videos/19.mp4",
+    "words": [
+      {
+        "word": "bear",
+        "ipa": "/beə/",
+        "meaning": "n. 熊",
+        "audio": "/media/phonics/words/bear.aac"
+      },
+      {
+        "word": "wear",
+        "ipa": "/weə/",
+        "meaning": "n. 衣物",
+        "audio": "/media/phonics/words/wear.aac"
+      },
+      {
+        "word": "fare",
+        "ipa": "/feə/",
+        "meaning": "n. 票价",
+        "audio": "/media/phonics/words/fare.aac"
+      }
+    ]
+  },
+  {
+    "index": 20,
+    "symbol": "/ʊə/",
+    "phonemeAudio": "/media/phonics/phonemes/20.aac",
+    "video": "/media/phonics/videos/20.mp4",
+    "words": [
+      {
+        "word": "poor",
+        "ipa": "/pʊə/",
+        "meaning": "adj. 贫穷的",
+        "audio": "/media/phonics/words/poor.aac"
+      },
+      {
+        "word": "tour",
+        "ipa": "/tʊə/",
+        "meaning": "n. 旅游",
+        "audio": "/media/phonics/words/tour.aac"
+      },
+      {
+        "word": "pure",
+        "ipa": "/pjʊə/",
+        "meaning": "adj. 纯的",
+        "audio": "/media/phonics/words/pure.aac"
+      }
+    ]
+  },
+  {
+    "index": 21,
+    "symbol": "/p/",
+    "phonemeAudio": "/media/phonics/phonemes/21.aac",
+    "video": "/media/phonics/videos/21.mp4",
+    "words": [
+      {
+        "word": "sip",
+        "ipa": "/sɪp/",
+        "meaning": "v. 小口喝",
+        "audio": "/media/phonics/words/sip.aac"
+      },
+      {
+        "word": "put",
+        "ipa": "/pʊt/",
+        "meaning": "vt. 放",
+        "audio": "/media/phonics/words/put.aac"
+      },
+      {
+        "word": "cup",
+        "ipa": "/kʌp/",
+        "meaning": "n. 杯子",
+        "audio": "/media/phonics/words/cup.aac"
+      }
+    ]
+  },
+  {
+    "index": 22,
+    "symbol": "/t/",
+    "phonemeAudio": "/media/phonics/phonemes/22.aac",
+    "video": "/media/phonics/videos/22.mp4",
+    "words": [
+      {
+        "word": "tomorrow",
+        "ipa": "/təˈmɒrəʊ/",
+        "meaning": "n. 明天",
+        "audio": "/media/phonics/words/tomorrow.aac"
+      },
+      {
+        "word": "today",
+        "ipa": "/təˈdeɪ/",
+        "meaning": "n. 今天",
+        "audio": "/media/phonics/words/today.aac"
+      },
+      {
+        "word": "top",
+        "ipa": "/tɒp/",
+        "meaning": "n. 顶部",
+        "audio": "/media/phonics/words/top.aac"
+      }
+    ]
+  },
+  {
+    "index": 23,
+    "symbol": "/k/",
+    "phonemeAudio": "/media/phonics/phonemes/23.aac",
+    "video": "/media/phonics/videos/23.mp4",
+    "words": [
+      {
+        "word": "cat",
+        "ipa": "/kæt/",
+        "meaning": "n. 猫",
+        "audio": "/media/phonics/words/cat.aac"
+      },
+      {
+        "word": "cup",
+        "ipa": "/kʌp/",
+        "meaning": "n. 杯子",
+        "audio": "/media/phonics/words/cup.aac"
+      },
+      {
+        "word": "card",
+        "ipa": "/kɑːd/",
+        "meaning": "n. 卡片",
+        "audio": "/media/phonics/words/card.aac"
+      }
+    ]
+  },
+  {
+    "index": 24,
+    "symbol": "/f/",
+    "phonemeAudio": "/media/phonics/phonemes/24.aac",
+    "video": "/media/phonics/videos/24.mp4",
+    "words": [
+      {
+        "word": "fish",
+        "ipa": "/fɪʃ/",
+        "meaning": "n. 鱼",
+        "audio": "/media/phonics/words/fish.aac"
+      },
+      {
+        "word": "free",
+        "ipa": "/friː/",
+        "meaning": "adv. 免费的",
+        "audio": "/media/phonics/words/free.aac"
+      },
+      {
+        "word": "floor",
+        "ipa": "/flɔː/",
+        "meaning": "n. 地板",
+        "audio": "/media/phonics/words/floor.aac"
+      }
+    ]
+  },
+  {
+    "index": 25,
+    "symbol": "/s/",
+    "phonemeAudio": "/media/phonics/phonemes/25.aac",
+    "video": "/media/phonics/videos/25.mp4",
+    "words": [
+      {
+        "word": "nice",
+        "ipa": "/naɪs/",
+        "meaning": "adj. 美好的",
+        "audio": "/media/phonics/words/nice.aac"
+      },
+      {
+        "word": "bus",
+        "ipa": "/bʌs/",
+        "meaning": "n. 公共汽车",
+        "audio": "/media/phonics/words/bus.aac"
+      },
+      {
+        "word": "sit",
+        "ipa": "/sɪt/",
+        "meaning": "n. 坐下",
+        "audio": "/media/phonics/words/sit.aac"
+      }
+    ]
+  },
+  {
+    "index": 26,
+    "symbol": "/ʃ/",
+    "phonemeAudio": "/media/phonics/phonemes/26.aac",
+    "video": "/media/phonics/videos/26.mp4",
+    "words": [
+      {
+        "word": "ship",
+        "ipa": "/ʃɪp/",
+        "meaning": "n. 船",
+        "audio": "/media/phonics/words/ship.aac"
+      },
+      {
+        "word": "fish",
+        "ipa": "/fɪʃ/",
+        "meaning": "n. 鱼",
+        "audio": "/media/phonics/words/fish.aac"
+      },
+      {
+        "word": "shirt",
+        "ipa": "/ʃɜːt/",
+        "meaning": "n. 衬衫",
+        "audio": "/media/phonics/words/shirt.aac"
+      }
+    ]
+  },
+  {
+    "index": 27,
+    "symbol": "/θ/",
+    "phonemeAudio": "/media/phonics/phonemes/27.aac",
+    "video": "/media/phonics/videos/27.mp4",
+    "words": [
+      {
+        "word": "path",
+        "ipa": "/pɑːθ/",
+        "meaning": "n. 道路",
+        "audio": "/media/phonics/words/path.aac"
+      },
+      {
+        "word": "think",
+        "ipa": "/θɪŋk/",
+        "meaning": "vt. 想",
+        "audio": "/media/phonics/words/think.aac"
+      },
+      {
+        "word": "math",
+        "ipa": "/mæθ/",
+        "meaning": "n. 数学",
+        "audio": "/media/phonics/words/math.aac"
+      }
+    ]
+  },
+  {
+    "index": 28,
+    "symbol": "/h/",
+    "phonemeAudio": "/media/phonics/phonemes/28.aac",
+    "video": "/media/phonics/videos/28.mp4",
+    "words": [
+      {
+        "word": "hut",
+        "ipa": "/hʌt/",
+        "meaning": "n. 小屋",
+        "audio": "/media/phonics/words/hut.aac"
+      },
+      {
+        "word": "hello",
+        "ipa": "/həˈləʊ/",
+        "meaning": "int. 喂",
+        "audio": "/media/phonics/words/hello.aac"
+      },
+      {
+        "word": "home",
+        "ipa": "/həʊm/",
+        "meaning": "n. 家",
+        "audio": "/media/phonics/words/home.aac"
+      }
+    ]
+  },
+  {
+    "index": 29,
+    "symbol": "/tʃ/",
+    "phonemeAudio": "/media/phonics/phonemes/29.aac",
+    "video": "/media/phonics/videos/29.mp4",
+    "words": [
+      {
+        "word": "chick",
+        "ipa": "/tʃɪk/",
+        "meaning": "n. 小鸡",
+        "audio": "/media/phonics/words/chick.aac"
+      },
+      {
+        "word": "coach",
+        "ipa": "/kəʊtʃ/",
+        "meaning": "n. 教练",
+        "audio": "/media/phonics/words/coach.aac"
+      },
+      {
+        "word": "rich",
+        "ipa": "/rɪtʃ/",
+        "meaning": "adj. 富有的",
+        "audio": "/media/phonics/words/rich.aac"
+      }
+    ]
+  },
+  {
+    "index": 30,
+    "symbol": "/ts/",
+    "phonemeAudio": "/media/phonics/phonemes/30.aac",
+    "video": "/media/phonics/videos/30.mp4",
+    "words": [
+      {
+        "word": "eats",
+        "ipa": "/iːts/",
+        "meaning": "vt. (第三人称)吃",
+        "audio": "/media/phonics/words/eats.aac"
+      },
+      {
+        "word": "cats",
+        "ipa": "/kæts/",
+        "meaning": "n. (复数)猫",
+        "audio": "/media/phonics/words/cats.aac"
+      },
+      {
+        "word": "gifts",
+        "ipa": "/gɪfts/",
+        "meaning": "n. (复数)礼物",
+        "audio": "/media/phonics/words/gifts.aac"
+      }
+    ]
+  },
+  {
+    "index": 31,
+    "symbol": "/tr/",
+    "phonemeAudio": "/media/phonics/phonemes/31.aac",
+    "video": "/media/phonics/videos/31.mp4",
+    "words": [
+      {
+        "word": "track",
+        "ipa": "/træk/",
+        "meaning": "n. 轨道",
+        "audio": "/media/phonics/words/track.aac"
+      },
+      {
+        "word": "tree",
+        "ipa": "/triː/",
+        "meaning": "n. 树",
+        "audio": "/media/phonics/words/tree.aac"
+      },
+      {
+        "word": "trill",
+        "ipa": "/trɪl/",
+        "meaning": "n. 颤音",
+        "audio": "/media/phonics/words/trill.aac"
+      }
+    ]
+  },
+  {
+    "index": 32,
+    "symbol": "/b/",
+    "phonemeAudio": "/media/phonics/phonemes/32.aac",
+    "video": "/media/phonics/videos/32.mp4",
+    "words": [
+      {
+        "word": "bread",
+        "ipa": "/bred/",
+        "meaning": "n. 面包",
+        "audio": "/media/phonics/words/bread.aac"
+      },
+      {
+        "word": "club",
+        "ipa": "/klʌb/",
+        "meaning": "n. 俱乐部",
+        "audio": "/media/phonics/words/club.aac"
+      },
+      {
+        "word": "lab",
+        "ipa": "/læb/",
+        "meaning": "n. 实验室",
+        "audio": "/media/phonics/words/lab.aac"
+      }
+    ]
+  },
+  {
+    "index": 33,
+    "symbol": "/d/",
+    "phonemeAudio": "/media/phonics/phonemes/33.aac",
+    "video": "/media/phonics/videos/33.mp4",
+    "words": [
+      {
+        "word": "dog",
+        "ipa": "/dɒg/",
+        "meaning": "n. 狗",
+        "audio": "/media/phonics/words/dog.aac"
+      },
+      {
+        "word": "card",
+        "ipa": "/kɑːd/",
+        "meaning": "n. 卡片",
+        "audio": "/media/phonics/words/card.aac"
+      },
+      {
+        "word": "bed",
+        "ipa": "/bed/",
+        "meaning": "n. 床",
+        "audio": "/media/phonics/words/bed.aac"
+      }
+    ]
+  },
+  {
+    "index": 34,
+    "symbol": "/ɡ/",
+    "phonemeAudio": "/media/phonics/phonemes/34.aac",
+    "video": "/media/phonics/videos/34.mp4",
+    "words": [
+      {
+        "word": "egg",
+        "ipa": "/eg/",
+        "meaning": "n. 蛋",
+        "audio": "/media/phonics/words/egg.aac"
+      },
+      {
+        "word": "dig",
+        "ipa": "/dɪg/",
+        "meaning": "vt. 挖",
+        "audio": "/media/phonics/words/dig.aac"
+      },
+      {
+        "word": "gate",
+        "ipa": "/geɪt/",
+        "meaning": "n. 大门",
+        "audio": "/media/phonics/words/gate.aac"
+      }
+    ]
+  },
+  {
+    "index": 35,
+    "symbol": "/v/",
+    "phonemeAudio": "/media/phonics/phonemes/35.aac",
+    "video": "/media/phonics/videos/35.mp4",
+    "words": [
+      {
+        "word": "very",
+        "ipa": "/\\'verɪ/",
+        "meaning": "adv. 非常",
+        "audio": "/media/phonics/words/very.aac"
+      },
+      {
+        "word": "dove",
+        "ipa": "/dʌv/",
+        "meaning": "n. 鸽子",
+        "audio": "/media/phonics/words/dove.aac"
+      },
+      {
+        "word": "ever",
+        "ipa": "/\\'evə/",
+        "meaning": "adv.曾经",
+        "audio": "/media/phonics/words/ever.aac"
+      }
+    ]
+  },
+  {
+    "index": 36,
+    "symbol": "/z/",
+    "phonemeAudio": "/media/phonics/phonemes/36.aac",
+    "video": "/media/phonics/videos/36.mp4",
+    "words": [
+      {
+        "word": "seize",
+        "ipa": "/siːz/",
+        "meaning": "vt. 抓住",
+        "audio": "/media/phonics/words/seize.aac"
+      },
+      {
+        "word": "zero",
+        "ipa": "/\\'zɪərəʊ/",
+        "meaning": "num. 零",
+        "audio": "/media/phonics/words/zero.aac"
+      },
+      {
+        "word": "size",
+        "ipa": "/saɪz/",
+        "meaning": "n. 大小",
+        "audio": "/media/phonics/words/size.aac"
+      }
+    ]
+  },
+  {
+    "index": 37,
+    "symbol": "/ʒ/",
+    "phonemeAudio": "/media/phonics/phonemes/37.aac",
+    "video": "/media/phonics/videos/37.mp4",
+    "words": [
+      {
+        "word": "decision",
+        "ipa": "/dɪ'sɪʒ(ə)n/",
+        "meaning": "n. 决定",
+        "audio": "/media/phonics/words/decision.aac"
+      },
+      {
+        "word": "television",
+        "ipa": "/ˈtelɪvɪʒn/",
+        "meaning": "n. 电视",
+        "audio": "/media/phonics/words/television.aac"
+      },
+      {
+        "word": "leisure",
+        "ipa": "/'leʒə/",
+        "meaning": "n. 闲暇",
+        "audio": "/media/phonics/words/leisure.aac"
+      }
+    ]
+  },
+  {
+    "index": 38,
+    "symbol": "/ð/",
+    "phonemeAudio": "/media/phonics/phonemes/38.aac",
+    "video": "/media/phonics/videos/38.mp4",
+    "words": [
+      {
+        "word": "they",
+        "ipa": "/ðeɪ/",
+        "meaning": "pron. 他们",
+        "audio": "/media/phonics/words/they.aac"
+      },
+      {
+        "word": "those",
+        "ipa": "/ðəʊz/",
+        "meaning": "adj. 那些的",
+        "audio": "/media/phonics/words/those.aac"
+      },
+      {
+        "word": "other",
+        "ipa": "/'ʌðə/",
+        "meaning": "adj. 其他的",
+        "audio": "/media/phonics/words/other.aac"
+      }
+    ]
+  },
+  {
+    "index": 39,
+    "symbol": "/ɹ/",
+    "phonemeAudio": "/media/phonics/phonemes/39.aac",
+    "video": "/media/phonics/videos/39.mp4",
+    "words": [
+      {
+        "word": "read",
+        "ipa": "/ri:d/",
+        "meaning": "vt. 阅读",
+        "audio": "/media/phonics/words/read.aac"
+      },
+      {
+        "word": "grass",
+        "ipa": "/grɑːs/",
+        "meaning": "n. 草",
+        "audio": "/media/phonics/words/grass.aac"
+      },
+      {
+        "word": "write",
+        "ipa": "/raɪt/",
+        "meaning": "vt. 写",
+        "audio": "/media/phonics/words/write.aac"
+      }
+    ]
+  },
+  {
+    "index": 40,
+    "symbol": "/dʒ/",
+    "phonemeAudio": "/media/phonics/phonemes/40.aac",
+    "video": "/media/phonics/videos/40.mp4",
+    "words": [
+      {
+        "word": "jam",
+        "ipa": "/dʒæm/",
+        "meaning": "n. 果酱",
+        "audio": "/media/phonics/words/jam.aac"
+      },
+      {
+        "word": "bridge",
+        "ipa": "/brɪdʒ/",
+        "meaning": "n. 桥",
+        "audio": "/media/phonics/words/bridge.aac"
+      },
+      {
+        "word": "July",
+        "ipa": "/dʒʊˈlaɪ/",
+        "meaning": "n. 七月",
+        "audio": "/media/phonics/words/July.aac"
+      }
+    ]
+  },
+  {
+    "index": 41,
+    "symbol": "/dz/",
+    "phonemeAudio": "/media/phonics/phonemes/41.aac",
+    "video": "/media/phonics/videos/41.mp4",
+    "words": [
+      {
+        "word": "beds",
+        "ipa": "/bedz/",
+        "meaning": "n. 床上用品(复数)",
+        "audio": "/media/phonics/words/beds.aac"
+      },
+      {
+        "word": "adds",
+        "ipa": "/ædz/",
+        "meaning": "vt. 增加(第三人称)",
+        "audio": "/media/phonics/words/adds.aac"
+      },
+      {
+        "word": "friends",
+        "ipa": "/frendz/",
+        "meaning": "n. 朋友(复数)",
+        "audio": "/media/phonics/words/friends.aac"
+      }
+    ]
+  },
+  {
+    "index": 42,
+    "symbol": "/dr/",
+    "phonemeAudio": "/media/phonics/phonemes/42.aac",
+    "video": "/media/phonics/videos/42.mp4",
+    "words": [
+      {
+        "word": "dress",
+        "ipa": "/dres/",
+        "meaning": "n. 连衣裙",
+        "audio": "/media/phonics/words/dress.aac"
+      },
+      {
+        "word": "drink",
+        "ipa": "/drɪŋk/",
+        "meaning": "vt. 喝",
+        "audio": "/media/phonics/words/drink.aac"
+      },
+      {
+        "word": "dream",
+        "ipa": "/driːm/",
+        "meaning": "n. 梦想",
+        "audio": "/media/phonics/words/dream.aac"
+      }
+    ]
+  },
+  {
+    "index": 43,
+    "symbol": "/m/",
+    "phonemeAudio": "/media/phonics/phonemes/43.aac",
+    "video": "/media/phonics/videos/43.mp4",
+    "words": [
+      {
+        "word": "smart",
+        "ipa": "/smɑːt/",
+        "meaning": "adj. 聪明的",
+        "audio": "/media/phonics/words/smart.aac"
+      },
+      {
+        "word": "move",
+        "ipa": "/muːv/",
+        "meaning": "vi. 移动",
+        "audio": "/media/phonics/words/move.aac"
+      },
+      {
+        "word": "mud",
+        "ipa": "/mʌd/",
+        "meaning": "n. 泥",
+        "audio": "/media/phonics/words/mud.aac"
+      }
+    ]
+  },
+  {
+    "index": 44,
+    "symbol": "/n/",
+    "phonemeAudio": "/media/phonics/phonemes/44.aac",
+    "video": "/media/phonics/videos/44.mp4",
+    "words": [
+      {
+        "word": "no",
+        "ipa": "/nəʊ/",
+        "meaning": "adv. 不",
+        "audio": "/media/phonics/words/no.aac"
+      },
+      {
+        "word": "hunt",
+        "ipa": "/hʌnt/",
+        "meaning": "vt. 打猎",
+        "audio": "/media/phonics/words/hunt.aac"
+      },
+      {
+        "word": "find",
+        "ipa": "/faɪnd/",
+        "meaning": "vt. 查找",
+        "audio": "/media/phonics/words/find.aac"
+      }
+    ]
+  },
+  {
+    "index": 45,
+    "symbol": "/ŋ/",
+    "phonemeAudio": "/media/phonics/phonemes/45.aac",
+    "video": "/media/phonics/videos/45.mp4",
+    "words": [
+      {
+        "word": "spring",
+        "ipa": "/sprɪŋ/",
+        "meaning": "n. 春天",
+        "audio": "/media/phonics/words/spring.aac"
+      },
+      {
+        "word": "sing",
+        "ipa": "/sɪŋ/",
+        "meaning": "vi. 唱歌",
+        "audio": "/media/phonics/words/sing.aac"
+      },
+      {
+        "word": "ink",
+        "ipa": "/ɪŋk/",
+        "meaning": "n. 墨水",
+        "audio": "/media/phonics/words/ink.aac"
+      }
+    ]
+  },
+  {
+    "index": 46,
+    "symbol": "/l/",
+    "phonemeAudio": "/media/phonics/phonemes/46.aac",
+    "video": "/media/phonics/videos/46.mp4",
+    "words": [
+      {
+        "word": "line",
+        "ipa": "/laɪn/",
+        "meaning": "n. 路线",
+        "audio": "/media/phonics/words/line.aac"
+      },
+      {
+        "word": "pool",
+        "ipa": "/puːl/",
+        "meaning": "n. 联营",
+        "audio": "/media/phonics/words/pool.aac"
+      },
+      {
+        "word": "alive",
+        "ipa": "/ə'laɪv/",
+        "meaning": "adj. 活着的",
+        "audio": "/media/phonics/words/alive.aac"
+      }
+    ]
+  },
+  {
+    "index": 47,
+    "symbol": "/w/",
+    "phonemeAudio": "/media/phonics/phonemes/47.aac",
+    "video": "/media/phonics/videos/47.mp4",
+    "words": [
+      {
+        "word": "work",
+        "ipa": "/wɜːk/",
+        "meaning": "n. 工作",
+        "audio": "/media/phonics/words/work.aac"
+      },
+      {
+        "word": "wood",
+        "ipa": "/wʊd/",
+        "meaning": "n. 木材",
+        "audio": "/media/phonics/words/wood.aac"
+      },
+      {
+        "word": "what",
+        "ipa": "/wɒt/",
+        "meaning": "pron. 什么",
+        "audio": "/media/phonics/words/what.aac"
+      }
+    ]
+  },
+  {
+    "index": 48,
+    "symbol": "/j/",
+    "phonemeAudio": "/media/phonics/phonemes/48.aac",
+    "video": "/media/phonics/videos/48.mp4",
+    "words": [
+      {
+        "word": "yell",
+        "ipa": "/jel/",
+        "meaning": "vi. 大叫",
+        "audio": "/media/phonics/words/yell.aac"
+      },
+      {
+        "word": "yak",
+        "ipa": "/jæk/",
+        "meaning": "n. 牦牛",
+        "audio": "/media/phonics/words/yak.aac"
+      },
+      {
+        "word": "youth",
+        "ipa": "/juːθ/",
+        "meaning": "n. 青年",
+        "audio": "/media/phonics/words/youth.aac"
+      }
+    ]
+  }
+]

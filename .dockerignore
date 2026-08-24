@@ -1,0 +1,14 @@
+.git
+.gitignore
+node_modules
+dist
+.next
+.vinext
+.wrangler
+private-assets
+work
+outputs
+tmp
+.env*
+*.log
+.DS_Store

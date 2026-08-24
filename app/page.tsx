@@ -405,13 +405,13 @@ export default function Home() {
     openTab(mainTabs[nextIndex].id);
   }
 
-  function playPlaylist(urls: string[], key: string, notice: string) {
+  function playPlaylist(urls: string[], key: string, notice?: string) {
     playerRef.current?.pause();
     let cursor = 0;
     const playNext = () => {
       const audio = new Audio(urls[cursor]);
       playerRef.current = audio;
-      audio.onplay = () => { setPlaying(key); setAudioNotice(notice); };
+      audio.onplay = () => { setPlaying(key); setAudioNotice(notice ?? ''); };
       audio.onerror = () => { setPlaying(''); setAudioNotice('声音加载失败，请再点一次。'); };
       audio.onended = () => {
         cursor += 1;
@@ -423,9 +423,9 @@ export default function Home() {
     playNext();
   }
 
-  function playSound(item: SoundItem, key = `sound-${item.index}`) {
+  function playSound(item: SoundItem, key = `sound-${item.index}`, announce = true) {
     remember(item.index);
-    playPlaylist([item.phonemeAudio], key, `正在播放 ${item.symbol}`);
+    playPlaylist([item.phonemeAudio], key, announce ? `正在播放 ${item.symbol}` : undefined);
   }
 
   function playWord(word: WordExample, key = `word-${word.word}`) {
@@ -624,7 +624,7 @@ export default function Home() {
       <div className={`game-board adventure-board theme-${gameScene}`}>
         <div className="game-progress"><span>第 {gameRound} 题</span><div><i style={{ width: `${((gameRound - 1) % 10 + 1) * 10}%` }} /></div><small>{randomSceneMode ? '🎲 随机场景中' : currentScene.title}</small></div>
         <div className="question-heading"><span>{questionMode === 'sound' ? '听音辨认' : '单词侦探'}</span><h3>{questionMode === 'sound' ? '听一听，选出正确的音标' : <>哪个单词包含 <strong>{sounds[gameQuestion].symbol}</strong> 这个音？</>}</h3></div>
-        <button className={`treasure-sound ${playing === 'game-question' ? 'playing' : ''}`} onClick={() => playSound(sounds[gameQuestion], 'game-question')}><span>🔊</span><b>{questionMode === 'sound' ? '点击听题目' : `听听 ${sounds[gameQuestion].symbol}`}</b><small>可以重复播放</small></button>
+        <button className={`treasure-sound ${playing === 'game-question' ? 'playing' : ''}`} onClick={() => playSound(sounds[gameQuestion], 'game-question', false)}><span>🔊</span><b>{questionMode === 'sound' ? '点击听题目' : `听听 ${sounds[gameQuestion].symbol}`}</b><small>可以重复播放</small></button>
 
         {gameScene === 'maze' ? <MazeGame key={gameRound} round={gameRound} options={gameOptions} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} /> : <>
           <SceneStage scene={gameScene} feedback={gameFeedback} outcome={gameOutcome} progress={sceneProgress[gameScene]} />
@@ -636,7 +636,7 @@ export default function Home() {
             return <button key={`${gameRound}-${index}`} className={isCorrect ? 'correct' : isWrong ? 'wrong' : ''} onClick={() => answerGame(index)} disabled={Boolean(gameFeedback)}>
               <i>{copy.optionIcons[optionIndex]}</i>
               <strong>{questionMode === 'sound' ? item.symbol : item.words[0].word}</strong>
-              <span>{questionMode === 'sound' ? soundGroup(item) : `${item.words[0].ipa} · ${item.words[0].meaning}`}</span>
+              <span>{questionMode === 'sound' ? soundGroup(item) : gameFeedback ? `${item.words[0].ipa} · ${item.words[0].meaning}` : item.words[0].meaning}</span>
               {isCorrect && <em>答对啦！</em>}{isWrong && <em>再听一听</em>}
             </button>;
           })}</div>

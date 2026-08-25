@@ -99,7 +99,7 @@ const mainTabs: { id: MainTab; icon: string; label: string }[] = [
 const gameScenes: { id: GameSceneKey; icon: string; title: string; description: string }[] = [
   { id: 'battle', icon: '🧙', title: '怪兽对战', description: '听准声音，释放随机技能' },
   { id: 'delivery', icon: '🛵', title: '森林快递', description: '送对门牌，遇见兔兔朋友' },
-  { id: 'maze', icon: '🧭', title: '宝藏迷宫', description: '走进 13×13 随机迷宫' },
+  { id: 'maze', icon: '🧭', title: '宝藏迷宫', description: '走进 7×7 随机迷宫' },
   { id: 'builder', icon: '🏗️', title: '起重建房', description: '吊起材料，逐层盖好房子' },
   { id: 'pipes', icon: '🔧', title: '管道急修', description: '判断裂口，选工具止住水' },
   { id: 'railway', icon: '🚂', title: '铁路调度', description: '拨动道岔，把列车送到站' },
@@ -173,7 +173,7 @@ const sceneCopy: Record<StageSceneKey, {
   },
 };
 
-const MAZE_SIZE = 13;
+const MAZE_SIZE = 7;
 
 function seededRandom(seed: number) {
   let state = (seed * 2654435761 + 1013904223) >>> 0;
@@ -185,7 +185,7 @@ function seededRandom(seed: number) {
 
 function buildMaze(seed: number) {
   const random = seededRandom(seed);
-  const nodes = [1, 3, 5, 7, 9, 11];
+  const nodes = Array.from({ length: (MAZE_SIZE - 1) / 2 }, (_, index) => index * 2 + 1);
   const start = { x: nodes[seed % nodes.length], y: MAZE_SIZE - 2 };
   const cells = new Set<string>();
   const visited = new Set<string>([`${start.x}-${start.y}`]);
@@ -271,7 +271,7 @@ function MazeGame({
 
   return <div className="maze-shell">
     <div className="maze-legend"><span>起点 🦁</span><b>走过的路会留下脚印</b><span>三条出口</span></div>
-    <div className={`maze-grid ${bumped ? 'bumped' : ''}`} aria-label="13乘13宝藏迷宫">
+    <div className={`maze-grid ${bumped ? 'bumped' : ''}`} aria-label="7乘7宝藏迷宫">
       {Array.from({ length: maze.size * maze.size }, (_, index) => {
         const x = index % maze.size;
         const y = Math.floor(index / maze.size);

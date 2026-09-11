@@ -21,8 +21,19 @@ export async function verifySession(raw: string) { const [body, signature] = raw
 export async function authorizationURL(state: string, nonce: string, redirectURL: string) { const discovery = await fetch(`${issuer}/.well-known/openid-configuration`).then(response => response.json() as Promise<{ authorization_endpoint: string }>); const query = new URLSearchParams({ response_type: 'code', client_id: clientId, redirect_uri: redirectURL, scope: 'openid profile email', state, nonce }); return `${discovery.authorization_endpoint}?${query}`; }
 export async function exchange(code: string, redirectURL: string) { const discovery = await fetch(`${issuer}/.well-known/openid-configuration`).then(response => response.json() as Promise<{ token_endpoint: string }>); const body = new URLSearchParams({ grant_type: 'authorization_code', code, redirect_uri: redirectURL, client_id: clientId, client_secret: clientSecret }); const response = await fetch(discovery.token_endpoint, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body }); if (!response.ok) throw new Error('token exchange failed'); return response.json() as Promise<{ id_token: string }>; }
 export async function verifyIDToken(raw: string, nonce: string) {
-  const [headerPart, payloadPart, signaturePart] = raw.split('.'); const header = decodePart(headerPart) as { kid?: string; alg?: string }; const claims = decodePart(payloadPart) as { iss?: string; aud?: string; exp?: number; nonce?: string; sub?: string; email?: string; email_verified?: boolean; preferred_username?: string; name?: string };
-  if (header.alg !== 'RS256' || claims.iss !== issuer || claims.aud !== clientId || claims.nonce !== nonce || !claims.email_verified || !claims.email || !claims.sub || !claims.exp || claims.exp < Date.now() / 1000) throw new Error('invalid identity claims');
+  const parts = raw.split('.');
+  if (parts.length !== 3) throw new Error('invalid token format');
+  const [headerPart, payloadPart, signaturePart] = parts;
+  const header = decodePart(headerPart) as { kid?: string; alg?: string };
+  const claims = decodePart(payloadPart) as { iss?: string; aud?: string | string[]; azp?: string; exp?: number; nbf?: number; iat?: number; nonce?: string; sub?: string; email?: string; email_verified?: boolean; preferred_username?: string; name?: string };
+  // OIDC permits a string or an array, and Casdoor signs an array even for one client.
+  const audiences = typeof claims.aud === 'string' ? [claims.aud] : claims.aud;
+  const audienceValid = Array.isArray(audiences) && audiences.every(aud => typeof aud === 'string') && audiences.includes(clientId);
+  const partyValid = claims.azp === undefined ? (audiences?.length === 1) : claims.azp === clientId;
+  const now = Date.now() / 1000;
+  const validTime = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
+  const hasText = (value: unknown) => typeof value === 'string' && value.trim().length > 0;
+  if (header.alg !== 'RS256' || claims.iss !== issuer || !audienceValid || !partyValid || !nonce || claims.nonce !== nonce || claims.email_verified !== true || !hasText(claims.email) || !hasText(claims.sub) || !validTime(claims.exp) || claims.exp <= now || (claims.nbf !== undefined && (!validTime(claims.nbf) || claims.nbf > now)) || (claims.iat !== undefined && (!validTime(claims.iat) || claims.iat > now))) throw new Error('invalid identity claims');
   const discovery = await fetch(`${issuer}/.well-known/openid-configuration`).then(response => response.json() as Promise<{ jwks_uri: string }>); const jwks = await fetch(discovery.jwks_uri).then(response => response.json() as Promise<{ keys: JsonWebKey[] }>); const key = jwks.keys.find(candidate => candidate.kid === header.kid); if (!key) throw new Error('unknown signing key'); const cryptoKey = await crypto.subtle.importKey('jwk', key, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']); const signature = Uint8Array.from(atob(signaturePart.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0)); const valid = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', cryptoKey, signature, new TextEncoder().encode(`${headerPart}.${payloadPart}`)); if (!valid) throw new Error('invalid token signature'); return claims;
 }
 

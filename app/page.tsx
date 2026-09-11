@@ -510,7 +510,6 @@ export default function Home() {
   return <main id="top" className={`active-${activeTab}`}>
     <header className="topbar">
       <button className="brand" onClick={() => openTab('home')}><span className="brand-mark">Aa</span><span>音标探险岛<small>Phonics Adventure</small></span></button>
-      {user ? <button className="auth-button" onClick={() => void logout()}>{user.display_name || user.username} · 退出</button> : <button className="auth-button" onClick={() => startLogin()}>登录夜不洛</button>}
       <nav className="desktop-nav" aria-label="主功能导航" role="tablist">
         {mainTabs.map((tab, index) => <button
           key={tab.id}
@@ -522,7 +521,10 @@ export default function Home() {
           onClick={() => openTab(tab.id)}
         >{tab.icon} {tab.label}</button>)}
       </nav>
-      <div className="star-pill" aria-label={`已认识 ${learned.length} 个声音`}>⭐ <b>{learned.length}</b><span>/48</span></div>
+      <div className="topbar-actions">
+        {user ? <button className="auth-button" onClick={() => void logout()}>{user.display_name || user.username} · 退出</button> : <button className="auth-button" onClick={() => startLogin()}>登录夜不洛</button>}
+        <div className="star-pill" aria-label={`已认识 ${learned.length} 个声音`}>⭐ <b>{learned.length}</b><span>/48</span></div>
+      </div>
     </header>
 
     {activeTab === 'home' && <div id="panel-home" role="tabpanel" aria-label="探险首页" className="tab-panel home-panel">

@@ -5,7 +5,7 @@ const sessionSecret = process.env.PHONICS_OIDC_SESSION_SECRET || '';
 
 function decodePart(input: string) { return JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(input.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0)))); }
 function encodePart(value: unknown) { return btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(value)))).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_'); }
-export function randomToken() { const bytes = new Uint8Array(32); crypto.getRandomValues(bytes); return encodeURIComponent(String.fromCharCode(...bytes)); }
+export function randomToken() { const bytes = new Uint8Array(32); crypto.getRandomValues(bytes); return btoa(String.fromCharCode(...bytes)).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_'); }
 async function hmac(value: string) { const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(sessionSecret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']); const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(value)); return btoa(String.fromCharCode(...new Uint8Array(signature))).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_'); }
 
 export function configured() { return Boolean(clientSecret && sessionSecret.length >= 32); }

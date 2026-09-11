@@ -1,0 +1,7 @@
+import { clearStateCookie, exchange, parseCookie, sessionCookieValue, signSession, verifyIDToken } from '../oidc';
+
+export async function GET(request: Request) {
+  const url = new URL(request.url); const state = parseCookie(request.headers.get('cookie'), 'phonics_oauth_state'); const parts = state.split('|');
+  if (parts.length !== 3 || parts[0] !== url.searchParams.get('state')) return new Response('Invalid SSO state', { status: 400 });
+  try { const token = await exchange(url.searchParams.get('code') || '', `${url.origin}/auth/callback`); const claims = await verifyIDToken(token.id_token, parts[1]); const session = await signSession({ sub: claims.sub, email: claims.email, username: claims.preferred_username || claims.email, display_name: claims.name || claims.preferred_username || claims.email, role: 'user', exp: Math.floor(Date.now() / 1000) + 86400 }); return new Response(null, { status: 302, headers: { Location: parts[2], 'Set-Cookie': `${sessionCookieValue(session)}, ${clearStateCookie()}` } }); } catch { return new Response('SSO login failed', { status: 401, headers: { 'Set-Cookie': clearStateCookie() } }); }
+}

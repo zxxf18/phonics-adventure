@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import soundData from './phonics-data.json';
+import { getCurrentUser, logout, startLogin, type AuthUser } from './auth-client';
 
 type WordExample = { word: string; ipa: string; meaning: string; audio: string };
 type SoundItem = {
@@ -360,6 +361,8 @@ function SceneStage({ scene, feedback, outcome, progress }: { scene: StageSceneK
 }
 
 export default function Home() {
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [authReady, setAuthReady] = useState(false);
   const [activeTab, setActiveTab] = useState<MainTab>('home');
   const [learnTab, setLearnTab] = useState<LearnTab>('vowels');
   const [learned, setLearned] = useState<number[]>([]);
@@ -380,6 +383,7 @@ export default function Home() {
   const progress = Math.round((learned.length / sounds.length) * 100);
   const questionMode: QuestionMode = questionModeSetting === 'mixed' ? (gameRound % 2 === 1 ? 'sound' : 'word') : questionModeSetting;
   const currentScene = gameScenes.find((scene) => scene.id === gameScene) ?? gameScenes[0];
+  useEffect(() => { void getCurrentUser().then(setUser).finally(() => setAuthReady(true)); }, []);
 
   const gameOptions = useMemo(() => {
     const candidates = [gameQuestion, (gameQuestion + 11) % sounds.length, (gameQuestion + 27) % sounds.length];
@@ -392,6 +396,7 @@ export default function Home() {
   }
 
   function openTab(tab: MainTab, nextLearnTab?: LearnTab) {
+    if (tab !== 'home' && !user) { if (authReady) startLogin(); return; }
     setActiveTab(tab);
     if (nextLearnTab) setLearnTab(nextLearnTab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -424,15 +429,18 @@ export default function Home() {
   }
 
   function playSound(item: SoundItem, key = `sound-${item.index}`, announce = true) {
+    if (!user) { if (authReady) startLogin(); return; }
     remember(item.index);
     playPlaylist([item.phonemeAudio], key, announce ? `正在播放 ${item.symbol}` : undefined);
   }
 
   function playWord(word: WordExample, key = `word-${word.word}`) {
+    if (!user) { if (authReady) startLogin(); return; }
     playPlaylist([word.audio], key, `正在播放 ${word.word}`);
   }
 
   function playGrapheme(item: Grapheme) {
+    if (!user) { if (authReady) startLogin(); return; }
     const related = item.sounds.map(soundByIndex);
     related.forEach((sound) => remember(sound.index));
     playPlaylist(related.map((sound) => sound.phonemeAudio), `grapheme-${item.mark}-${item.example}`, `正在播放 ${item.mark} 的声音`);
@@ -502,6 +510,7 @@ export default function Home() {
   return <main id="top" className={`active-${activeTab}`}>
     <header className="topbar">
       <button className="brand" onClick={() => openTab('home')}><span className="brand-mark">Aa</span><span>音标探险岛<small>Phonics Adventure</small></span></button>
+      {user ? <button className="auth-button" onClick={() => void logout()}>{user.display_name || user.username} · 退出</button> : <button className="auth-button" onClick={() => startLogin()}>登录夜不洛</button>}
       <nav className="desktop-nav" aria-label="主功能导航" role="tablist">
         {mainTabs.map((tab, index) => <button
           key={tab.id}

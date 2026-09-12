@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import soundData from './phonics-data.json';
-import { getCurrentUser, logout, startLogin, type AuthUser } from './auth-client';
+import { getCurrentUser, startLogin, type AuthUser } from './auth-client';
+import { UserMenu } from './UserMenu';
 
 type WordExample = { word: string; ipa: string; meaning: string; audio: string };
 type SoundItem = {
@@ -522,7 +523,7 @@ export default function Home() {
         >{tab.icon} {tab.label}</button>)}
       </nav>
       <div className="topbar-actions">
-        {user ? <button className="auth-button" onClick={() => void logout()}>{user.display_name || user.username} · 退出</button> : <button className="auth-button" onClick={() => startLogin()}>登录夜不洛</button>}
+        <UserMenu user={user} />
         <div className="star-pill" aria-label={`已认识 ${learned.length} 个声音`}>⭐ <b>{learned.length}</b><span>/48</span></div>
       </div>
     </header>

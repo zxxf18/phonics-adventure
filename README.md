@@ -13,6 +13,8 @@ npm run dev
 
 访问 <http://localhost:3000>。
 
+内容访问认证由 `PHONICS_REQUIRE_AUTH_FOR_CONTENT` 控制。变量未设置或为 `false` 时，学习内容匿名可用；设置为 `true` 并重启服务后，首页会要求先完成 SSO 登录。登录、退出和当前用户接口始终保留。
+
 音视频文件不纳入 Git。需要完整播放功能时，请在本地补充 `public/audio` 和 `public/media` 下的对应文件。
 
 生产构建与启动：

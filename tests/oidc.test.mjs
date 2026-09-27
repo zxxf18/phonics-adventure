@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { generateKeyPairSync, sign } from 'node:crypto';
 import { test } from 'node:test';
-import { verifyIDToken, issuer, clientId } from '../app/auth/oidc.ts';
+import { verifyIDToken, issuer, clientId, contentAuthRequired } from '../app/auth/oidc.ts';
 
 const { publicKey, privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
 const key = { ...publicKey.export({ format: 'jwk' }), kid: 'test-key' };
@@ -55,4 +55,12 @@ test('Casdoor ID tokens accept OIDC audiences and reject invalid identities', as
     const other = generateKeyPairSync('rsa', { modulusLength: 2048 });
     await assert.rejects(verifyIDToken(token(valid, other.privateKey), valid.nonce));
   });
+});
+
+test('content auth switch is off by default and only enables on an explicit true value', () => {
+  assert.equal(contentAuthRequired(undefined), false);
+  assert.equal(contentAuthRequired(''), false);
+  assert.equal(contentAuthRequired('false'), false);
+  assert.equal(contentAuthRequired(' TRUE '), true);
+  assert.equal(contentAuthRequired('1'), false);
 });

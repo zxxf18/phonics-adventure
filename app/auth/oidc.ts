@@ -9,6 +9,9 @@ export function randomToken() { const bytes = new Uint8Array(32); crypto.getRand
 async function hmac(value: string) { const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(sessionSecret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']); const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(value)); return btoa(String.fromCharCode(...new Uint8Array(signature))).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_'); }
 
 export function configured() { return Boolean(clientSecret && sessionSecret.length >= 32); }
+export function contentAuthRequired(raw = process.env.PHONICS_REQUIRE_AUTH_FOR_CONTENT) {
+  return raw?.trim().toLowerCase() === 'true';
+}
 export function safeReturnTo(raw: string | null) { if (!raw || !raw.startsWith('/') || raw.startsWith('//') || raw.includes('://')) return '/'; return raw; }
 export function stateCookieValue(value: string) { return `phonics_oauth_state=${encodeURIComponent(value)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`; }
 export function sessionCookieValue(value: string) { return `phonics_session=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`; }

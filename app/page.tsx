@@ -4,6 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import soundData from './phonics-data.json';
 import { getCurrentUser, type AuthUser } from './auth-client';
 import { UserMenu } from './UserMenu';
+import {
+  GAME_QUESTION_SECONDS,
+  GAME_RUN_LENGTH,
+  GAME_START_LIVES,
+  resolveAnswer,
+} from './game-rules';
 
 type WordExample = { word: string; ipa: string; meaning: string; audio: string };
 type SoundItem = {
@@ -89,7 +95,7 @@ type GameSceneKey = 'battle' | 'delivery' | 'maze' | 'builder' | 'pipes' | 'rail
 type StageSceneKey = Exclude<GameSceneKey, 'maze'>;
 type QuestionMode = 'sound' | 'word';
 type QuestionModeSetting = 'mixed' | QuestionMode;
-type GameFeedback = { selected: number; correct: boolean } | null;
+type GameFeedback = { selected: number; correct: boolean; timedOut?: boolean } | null;
 
 const mainTabs: { id: MainTab; icon: string; label: string }[] = [
   { id: 'home', icon: '🏝️', label: '探险首页' },
@@ -373,6 +379,11 @@ export default function Home() {
   const [gameQuestion, setGameQuestion] = useState(20);
   const [gameScore, setGameScore] = useState(0);
   const [gameStreak, setGameStreak] = useState(0);
+  const [gameLives, setGameLives] = useState(GAME_START_LIVES);
+  const [gameTimeLeft, setGameTimeLeft] = useState(GAME_QUESTION_SECONDS);
+  const [gameStatus, setGameStatus] = useState<'playing' | 'over'>('playing');
+  const [gameBest, setGameBest] = useState(0);
+  const answerGameRef = useRef<(selected: number) => void>(() => undefined);
   const [gameScene, setGameScene] = useState<GameSceneKey>('battle');
   const [questionModeSetting, setQuestionModeSetting] = useState<QuestionModeSetting>('mixed');
   const [randomSceneMode, setRandomSceneMode] = useState(false);
@@ -384,6 +395,21 @@ export default function Home() {
   const questionMode: QuestionMode = questionModeSetting === 'mixed' ? (gameRound % 2 === 1 ? 'sound' : 'word') : questionModeSetting;
   const currentScene = gameScenes.find((scene) => scene.id === gameScene) ?? gameScenes[0];
   useEffect(() => { void getCurrentUser().then(setUser); }, []);
+
+  useEffect(() => {
+    if (activeTab !== 'games' || gameStatus !== 'playing' || gameFeedback) return;
+    const timer = window.setInterval(() => {
+      setGameTimeLeft((seconds) => {
+        if (seconds <= 1) {
+          window.clearInterval(timer);
+          answerGameRef.current(-1);
+          return 0;
+        }
+        return seconds - 1;
+      });
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [activeTab, gameStatus, gameRound, gameFeedback]);
 
   const gameOptions = useMemo(() => {
     const candidates = [gameQuestion, (gameQuestion + 11) % sounds.length, (gameQuestion + 27) % sounds.length];
@@ -442,30 +468,57 @@ export default function Home() {
     playPlaylist(related.map((sound) => sound.phonemeAudio), `grapheme-${item.mark}-${item.example}`, `正在播放 ${item.mark} 的声音`);
   }
 
+  function startGame() {
+    setGameRound(1);
+    setGameQuestion(randomIndex(sounds.length));
+    setGameScore(0);
+    setGameStreak(0);
+    setGameLives(GAME_START_LIVES);
+    setGameTimeLeft(GAME_QUESTION_SECONDS);
+    setGameStatus('playing');
+    setGameFeedback(null);
+    setSceneProgress(Object.fromEntries(gameScenes.map((scene) => [scene.id, 0])) as Record<GameSceneKey, number>);
+  }
+
   function answerGame(selected: number) {
-    if (gameFeedback) return;
-    const correct = selected === gameQuestion;
-    setGameFeedback({ selected, correct });
+    if (gameFeedback || gameStatus !== 'playing') return;
+    const timedOut = selected < 0;
+    const correct = !timedOut && selected === gameQuestion;
+    const outcome = resolveAnswer({ correct, round: gameRound, lives: gameLives, streak: gameStreak });
+    setGameFeedback({ selected, correct, timedOut });
     setGameOutcome(randomIndex(3));
     if (correct) {
-      setGameScore((score) => score + 1);
-      setGameStreak((streak) => streak + 1);
+      setGameScore((score) => score + outcome.score);
+      setGameStreak(outcome.streak);
+      setGameLives(outcome.lives);
       setSceneProgress((old) => ({ ...old, [gameScene]: old[gameScene] + 1 }));
       remember(sounds[gameQuestion].index);
     } else {
-      setGameStreak(0);
+      setGameScore((score) => score);
+      setGameStreak(outcome.streak);
+      setGameLives(outcome.lives);
     }
     const nextQuestion = (gameQuestion * 7 + gameRound * 13 + 5) % sounds.length;
     window.setTimeout(() => {
+      if (outcome.finished) {
+        setGameStatus('over');
+        setGameBest((best) => Math.max(best, gameScore + outcome.score));
+        return;
+      }
       setGameRound((round) => round + 1);
       setGameQuestion(nextQuestion === gameQuestion ? (nextQuestion + 1) % sounds.length : nextQuestion);
+      setGameTimeLeft(GAME_QUESTION_SECONDS);
       setGameFeedback(null);
       if (randomSceneMode) {
         const choices = gameScenes.filter((scene) => scene.id !== gameScene);
         setGameScene(choices[randomIndex(choices.length)].id);
       }
-    }, 2200);
+    }, 1500);
   }
+
+  useEffect(() => {
+    answerGameRef.current = answerGame;
+  });
 
   function chooseScene(scene: GameSceneKey) {
     if (gameFeedback) return;
@@ -629,26 +682,35 @@ export default function Home() {
       </div>
 
       <div className={`game-board adventure-board theme-${gameScene}`}>
-        <div className="game-progress"><span>第 {gameRound} 题</span><div><i style={{ width: `${((gameRound - 1) % 10 + 1) * 10}%` }} /></div><small>{randomSceneMode ? '🎲 随机场景中' : currentScene.title}</small></div>
-        <div className="question-heading"><span>{questionMode === 'sound' ? '听音辨认' : '单词侦探'}</span><h3>{questionMode === 'sound' ? '听一听，选出正确的音标' : <>哪个单词包含 <strong>{sounds[gameQuestion].symbol}</strong> 这个音？</>}</h3></div>
-        <button className={`treasure-sound ${playing === 'game-question' ? 'playing' : ''}`} onClick={() => playSound(sounds[gameQuestion], 'game-question', false)}><span>🔊</span><b>{questionMode === 'sound' ? '点击听题目' : `听听 ${sounds[gameQuestion].symbol}`}</b><small>可以重复播放</small></button>
+        <div className="game-run-stats" aria-label="本局状态"><span>❤️ {gameLives}</span><span className={gameTimeLeft <= 3 ? 'urgent' : ''}>⏱️ {gameTimeLeft}s</span><span>🔥 {gameStreak} 连击</span><span>🏆 {gameScore}</span></div>
+        {gameStatus === 'over' ? <div className="game-results" role="status">
+          <span className="results-badge">探险结算</span>
+          <h3>{gameLives > 0 ? '全程通关！' : '差一点就成功了！'}</h3>
+          <p>本局得分 <strong>{gameScore}</strong> · 最佳成绩 <strong>{Math.max(gameBest, gameScore)}</strong></p>
+          <p className="results-detail">{gameLives > 0 ? `完成 ${GAME_RUN_LENGTH} 题，连击最高 ${gameStreak}。` : '生命耗尽，听清音标后再来挑战一次。'}</p>
+          <button className="restart-game" onClick={startGame}>↻ 再来一局</button>
+        </div> : <>
+          <div className="game-progress"><span>第 {gameRound} / {GAME_RUN_LENGTH} 题</span><div><i style={{ width: `${(gameRound / GAME_RUN_LENGTH) * 100}%` }} /></div><small>{randomSceneMode ? '🎲 随机场景中' : currentScene.title}</small></div>
+          <div className="question-heading"><span>{questionMode === 'sound' ? '听音辨认' : '单词侦探'}</span><h3>{questionMode === 'sound' ? '听一听，选出正确的音标' : <>哪个单词包含 <strong>{sounds[gameQuestion].symbol}</strong> 这个音？</>}</h3></div>
+          <button className={`treasure-sound ${playing === 'game-question' ? 'playing' : ''}`} onClick={() => playSound(sounds[gameQuestion], 'game-question', false)}><span>🔊</span><b>{questionMode === 'sound' ? '点击听题目' : `听听 ${sounds[gameQuestion].symbol}`}</b><small>可以重复播放</small></button>
 
-        {gameScene === 'maze' ? <MazeGame key={gameRound} round={gameRound} options={gameOptions} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} /> : <>
-          <SceneStage scene={gameScene} feedback={gameFeedback} outcome={gameOutcome} progress={sceneProgress[gameScene]} />
-          <div className={`game-options scene-options options-${gameScene}`}>{gameOptions.map((index, optionIndex) => {
-            const item = sounds[index];
-            const isCorrect = gameFeedback && index === gameQuestion;
-            const isWrong = gameFeedback && gameFeedback.selected === index && !gameFeedback.correct;
-            const copy = sceneCopy[gameScene];
-            return <button key={`${gameRound}-${index}`} className={isCorrect ? 'correct' : isWrong ? 'wrong' : ''} onClick={() => answerGame(index)} disabled={Boolean(gameFeedback)}>
-              <i>{copy.optionIcons[optionIndex]}</i>
-              <strong>{questionMode === 'sound' ? item.symbol : item.words[0].word}</strong>
-              <span>{questionMode === 'sound' ? soundGroup(item) : gameFeedback ? `${item.words[0].ipa} · ${item.words[0].meaning}` : item.words[0].meaning}</span>
-              {isCorrect && <em>答对啦！</em>}{isWrong && <em>再听一听</em>}
-            </button>;
-          })}</div>
+          {gameScene === 'maze' ? <MazeGame key={gameRound} round={gameRound} options={gameOptions} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} /> : <>
+            <SceneStage scene={gameScene} feedback={gameFeedback} outcome={gameOutcome} progress={sceneProgress[gameScene]} />
+            <div className={`game-options scene-options options-${gameScene}`}>{gameOptions.map((index, optionIndex) => {
+              const item = sounds[index];
+              const isCorrect = gameFeedback && index === gameQuestion;
+              const isWrong = gameFeedback && gameFeedback.selected === index && !gameFeedback.correct;
+              const copy = sceneCopy[gameScene];
+              return <button key={`${gameRound}-${index}`} className={isCorrect ? 'correct' : isWrong ? 'wrong' : ''} onClick={() => answerGame(index)} disabled={Boolean(gameFeedback)}>
+                <i>{copy.optionIcons[optionIndex]}</i>
+                <strong>{questionMode === 'sound' ? item.symbol : item.words[0].word}</strong>
+                <span>{questionMode === 'sound' ? soundGroup(item) : gameFeedback ? `${item.words[0].ipa} · ${item.words[0].meaning}` : item.words[0].meaning}</span>
+                {isCorrect && <em>答对啦！</em>}{isWrong && <em>{gameFeedback?.timedOut ? '超时了' : '再听一听'}</em>}
+              </button>;
+            })}</div>
+          </>}
+          <p className="game-tip">💡 每局 10 题、3 条生命；答对会叠加连击分，倒计时结束或答错会损失生命。迷宫支持键盘方向键。</p>
         </>}
-        <p className="game-tip">💡 小提示：先完整听完，再做选择。迷宫支持键盘方向键；建造、修理、装配等任务会累积进度。</p>
       </div>
     </section>}
 

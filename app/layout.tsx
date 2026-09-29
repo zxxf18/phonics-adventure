@@ -10,4 +10,4 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title, description, images: ['/og.png'] },
 };
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, maximumScale: 1, themeColor: '#dff4ff' };
-export default function RootLayout({children}: Readonly<{children:React.ReactNode}>) { return <html lang="zh-CN"><body>{children}</body></html>; }
+export default function RootLayout({children}: Readonly<{children:React.ReactNode}>) { return <html lang="zh-CN"><head><script defer src="https://yebuluo.com.cn/stats/tracker.js" data-site-id="phonics" /></head><body>{children}</body></html>; }

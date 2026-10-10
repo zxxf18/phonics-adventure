@@ -257,7 +257,7 @@ function RailwayGame({ options, correct, feedback, labelFor, onAnswer }: { optio
   const [switches, setSwitches] = useState([false, false]);
   const [dispatched, setDispatched] = useState(false);
   const correctRoute = options.indexOf(correct);
-  const routeCode = switches[0] ? 2 : 0 + (switches[1] ? 1 : 0);
+  const routeCode = (switches[0] ? 2 : 0) + (switches[1] ? 1 : 0);
   const dispatch = () => {
     if (feedback || dispatched) return;
     setDispatched(true);

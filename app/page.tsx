@@ -317,6 +317,47 @@ function MazeGame({
   </div>;
 }
 
+function MatchGame({ options, feedback, labelFor, onAnswer }: { options: number[]; feedback: GameFeedback; labelFor: (index: number) => string; onAnswer: (index: number) => void }) {
+  const [revealed, setRevealed] = useState<number | null>(null);
+  const choose = (index: number) => {
+    if (feedback || revealed !== null) return;
+    setRevealed(index);
+    window.setTimeout(() => onAnswer(index), 620);
+  };
+  return <div className="match-game" aria-label="声音配对游戏">
+    <div className="match-prompt"><span>🗝️ 声音宝箱</span><b>点开一个宝箱，看看里面是不是目标单词</b><small>先观察，再做决定</small></div>
+    <div className="match-chests">{options.map((index) => {
+      const open = revealed === index || (feedback?.correct && index === options.find((option) => option === index));
+      return <button key={index} className={`match-chest ${open ? 'open' : ''} ${feedback?.selected === index ? (feedback.correct ? 'correct' : 'wrong') : ''}`} onClick={() => choose(index)} disabled={Boolean(feedback)}>
+        <span>{open ? '📖' : '🎁'}</span><b>{open ? labelFor(index) : '???'}</b><small>{open ? '听一听，再确认' : '点击揭晓'}</small>
+      </button>;
+    })}</div>
+    <p className="match-hint">每次只打开一个宝箱，选中后会自动判断配对结果。</p>
+  </div>;
+}
+
+function SpellGame({ correct, options, feedback, onAnswer }: { correct: number; options: number[]; feedback: GameFeedback; onAnswer: (index: number) => void }) {
+  const target = sounds[correct].words[0].word.toLowerCase();
+  const tiles = useMemo(() => {
+    const chars = target.split('').map((char, id) => ({ id, char }));
+    const decoys = ['a', 'e', 'i', 'o', 'u'].filter((char) => !target.includes(char)).slice(0, 2).map((char, id) => ({ id: target.length + id, char }));
+    return [...chars, ...decoys].sort((a, b) => ((a.id + 3) * 17 + target.length) % 11 - ((b.id + 3) * 17 + target.length) % 11);
+  }, [target]);
+  const [picked, setPicked] = useState<number[]>([]);
+  const answer = () => {
+    if (picked.length !== target.length || feedback) return;
+    const word = picked.map((id) => tiles.find((tile) => tile.id === id)?.char ?? '').join('');
+    onAnswer(word === target ? correct : options.find((index) => index !== correct) ?? correct);
+  };
+  return <div className="spell-game" aria-label="拼词工坊游戏">
+    <div className="spell-prompt"><span>🪄 拼词工坊</span><b>听音标、看意思，把单词拼出来</b><small>{sounds[correct].symbol} · {sounds[correct].words[0].meaning}</small></div>
+    <div className="spell-slots" aria-label="已选择的字母">{Array.from({ length: target.length }, (_, slot) => <span key={slot}>{tiles.find((tile) => tile.id === picked[slot])?.char ?? '·'}</span>)}</div>
+    <div className="spell-tiles">{tiles.map((tile) => <button key={tile.id} className={picked.includes(tile.id) ? 'picked' : ''} onClick={() => setPicked((old) => old.includes(tile.id) ? old : [...old, tile.id])} disabled={Boolean(feedback) || picked.includes(tile.id)}>{tile.char}</button>)}</div>
+    <div className="spell-actions"><button className="spell-undo" onClick={() => setPicked((old) => old.slice(0, -1))} disabled={Boolean(feedback) || picked.length === 0}>⌫ 撤回</button><button className="spell-check" onClick={answer} disabled={Boolean(feedback) || picked.length !== target.length}>✨ 检查拼写</button></div>
+    <p className="spell-hint">字母顺序很重要，拼好后点击检查。</p>
+  </div>;
+}
+
 function SceneStage({ scene, feedback, outcome, progress }: { scene: StageSceneKey; feedback: GameFeedback; outcome: number; progress: number }) {
   const copy = sceneCopy[scene];
   const state = feedback ? (feedback.correct ? 'success' : 'failure') : 'waiting';
@@ -697,17 +738,17 @@ export default function Home() {
 
       <div className="game-mode-deck" aria-label="选择游戏玩法">{gameModes.map((mode) => <button key={mode.id} className={gameMode === mode.id ? 'active' : ''} onClick={() => chooseGameMode(mode.id)} disabled={Boolean(gameFeedback)}><span>{mode.icon}</span><b>{mode.title}</b><small>{mode.description}</small><em>{mode.hint}</em></button>)}</div>
 
-      <div className="question-mode-picker" aria-label="选择题型">
+      {gameMode === 'trail' && <div className="question-mode-picker" aria-label="选择题型">
         <span>题型</span>
         <button className={questionModeSetting === 'mixed' ? 'active' : ''} onClick={() => setQuestionModeSetting('mixed')} disabled={Boolean(gameFeedback)}>🔀 混合交替</button>
         <button className={questionModeSetting === 'sound' ? 'active' : ''} onClick={() => setQuestionModeSetting('sound')} disabled={Boolean(gameFeedback)}>🔊 听音选音标</button>
         <button className={questionModeSetting === 'word' ? 'active' : ''} onClick={() => setQuestionModeSetting('word')} disabled={Boolean(gameFeedback)}>🔤 看音标选单词</button>
-      </div>
+      </div>}
 
-      <div className="scene-picker" aria-label="选择游戏场景">
+      {gameMode === 'trail' && <div className="scene-picker" aria-label="选择游戏场景">
         <button className={`random-scene ${randomSceneMode ? 'active' : ''}`} onClick={chooseRandomScene} disabled={Boolean(gameFeedback)}><span>🎲</span><b>随机来一局</b><small>每题自动换场景</small></button>
         {gameScenes.map((scene) => <button key={scene.id} className={gameScene === scene.id && !randomSceneMode ? 'active' : ''} onClick={() => chooseScene(scene.id)} disabled={Boolean(gameFeedback)}><span>{scene.icon}</span><b>{scene.title}</b><small>{scene.description}</small></button>)}
-      </div>
+      </div>}
 
       <div className={`game-board adventure-board theme-${gameScene}`}>
         <div className="game-run-stats" aria-label="本局状态"><span>❤️ {gameLives}</span><span className={gameTimeLeft <= 3 ? 'urgent' : ''}>⏱️ {gameTimeLeft}s</span><span>🔥 {gameStreak} 连击</span><span>{gameShield ? '🛡️ 护盾' : '○ 护盾未充能'}</span><span>🏆 {gameScore}</span></div>
@@ -723,7 +764,7 @@ export default function Home() {
           <div className="question-heading"><span>{questionMode === 'sound' ? '听音辨认' : '单词侦探'}</span><h3>{questionMode === 'sound' ? '听一听，选出正确的音标' : <>哪个单词包含 <strong>{sounds[gameQuestion].symbol}</strong> 这个音？</>}</h3></div>
           <button className={`treasure-sound ${playing === 'game-question' ? 'playing' : ''}`} onClick={() => playSound(sounds[gameQuestion], 'game-question', false)}><span>🔊</span><b>{questionMode === 'sound' ? '点击听题目' : `听听 ${sounds[gameQuestion].symbol}`}</b><small>可以重复播放</small></button>
 
-          {gameScene === 'maze' ? <MazeGame key={gameRound} round={gameRound} options={gameOptions} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} /> : <>
+          {gameMode === 'match' ? <MatchGame key={gameRound} options={gameOptions} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} /> : gameMode === 'spell' ? <SpellGame key={gameRound} correct={gameQuestion} options={gameOptions} feedback={gameFeedback} onAnswer={answerGame} /> : gameScene === 'maze' ? <MazeGame key={gameRound} round={gameRound} options={gameOptions} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} /> : <>
             <SceneStage scene={gameScene} feedback={gameFeedback} outcome={gameOutcome} progress={sceneProgress[gameScene]} />
             <div className={`game-options scene-options options-${gameScene}`}>{gameOptions.map((index, optionIndex) => {
               const item = sounds[index];

@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "surface": "phonics-adventure",
+  "mode": "operate",
+  "world": "cartoon exploration island",
+  "tokens": {
+    "color": {
+      "ink": "#26364f",
+      "muted": "#71839a",
+      "cream": "#fffaf0",
+      "blue": "#ddf3ff",
+      "orange": "#ff895e",
+      "yellow": "#ffcb4f",
+      "purple": "#7668cd",
+      "green": "#62b866"
+    },
+    "radius": { "card": "25px", "button": "14px", "pill": "999px" },
+    "spacing": { "section": "72px", "card": "15px", "control": "12px" },
+    "type": { "body": "Trebuchet MS / Microsoft YaHei", "display": "Trebuchet MS / Microsoft YaHei" }
+  },
+  "game": {
+    "modes": ["trail", "match", "spell"],
+    "runLength": 10,
+    "lives": 3,
+    "shieldStreak": 3,
+    "reviewMistakes": true
+  }
+}

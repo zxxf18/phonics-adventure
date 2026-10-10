@@ -91,3 +91,27 @@
    state, and the result card gives the player a reason to replay. */
 .game-run-stats{width:min(760px,100%);margin:0 auto 12px;display:flex;justify-content:center;gap:9px;flex-wrap:wrap;color:#73536e;font-size:12px;font-weight:900}.game-run-stats span{min-width:76px;padding:8px 11px;border:1px solid #efd0d5;border-radius:999px;background:#fff9f0;box-shadow:0 3px 0 #e9c9d0;text-align:center}.game-run-stats .urgent{color:#b63848;border-color:#f39aa0;background:#fff0f0;animation:timer-pulse .7s ease-in-out infinite}.game-results{min-height:390px;display:grid;place-content:center;justify-items:center;padding:38px 22px;text-align:center}.results-badge{padding:7px 13px;border-radius:999px;background:#fff0c7;color:#a46d16;font-size:11px;font-weight:900;letter-spacing:.5px}.game-results h3{margin:18px 0 8px;color:#4d3d68;font-size:clamp(27px,4vw,42px)}.game-results p{margin:0;color:#886b81;font-weight:800}.game-results p strong{color:#bd634c;font-size:23px}.game-results .results-detail{margin-top:13px;font-size:13px}.restart-game{margin-top:25px;min-height:49px;padding:0 24px;border:0;border-radius:16px;background:#ed795c;color:#fff;font-weight:900;box-shadow:0 6px 0 #c85a45;cursor:pointer}.restart-game:hover{transform:translateY(-2px)}@keyframes timer-pulse{50%{transform:scale(1.04)}}
 @media(max-width:520px){.game-run-stats{gap:5px}.game-run-stats span{min-width:65px;padding:7px 6px;font-size:10px}.game-results{min-height:300px;padding:25px 12px}}
+
+/* Playful game loop: the learning site keeps its island colours; the game gets
+   a smaller, more readable choice of missions and a visible reward loop. */
+.game-score { flex-wrap: wrap; justify-content: flex-end; }
+.game-score span { padding: 10px 13px; border-radius: 14px; background: #fff; color: #965c72; box-shadow: 0 5px 0 #efced9; font-size: 12px; }
+.game-mode-deck { width: min(880px, 100%); margin: 0 auto 23px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.game-mode-deck button { position: relative; min-height: 122px; padding: 16px 13px 13px; border: 2px solid transparent; border-radius: 23px; background: #fff; color: #647388; box-shadow: 0 7px 0 #eadde2; text-align: left; cursor: pointer; transition: .2s; }
+.game-mode-deck button:hover:not(:disabled) { transform: translateY(-4px); border-color: #8ec9e7; }
+.game-mode-deck button.active { border-color: #ff9071; background: #fff3df; box-shadow: 0 7px 0 #edc2ae; color: #704a53; }
+.game-mode-deck button > span { display: block; font-size: 30px; line-height: 1; }
+.game-mode-deck b, .game-mode-deck small, .game-mode-deck em { display: block; }
+.game-mode-deck b { margin-top: 9px; color: #4e426d; font-size: 14px; }
+.game-mode-deck small { margin-top: 3px; color: #897d8d; font-size: 10px; font-weight: 800; }
+.game-mode-deck em { margin-top: 6px; color: #d67a58; font-size: 9px; font-style: normal; font-weight: 900; }
+.game-mode-deck button.active::after { content: '正在玩'; position: absolute; right: 11px; top: 11px; padding: 4px 7px; border-radius: 999px; background: #ff8b65; color: #fff; font-size: 8px; font-weight: 900; }
+.adventure-board { border: 4px solid #fff; background: #fffbf4; box-shadow: 0 13px 0 #f0d7df, 0 24px 48px #90576c1d; }
+.adventure-board .game-run-stats { margin-bottom: 15px; }
+.adventure-board .game-run-stats span { min-width: 75px; padding: 7px 10px; background: #fff8ef; border: 1px solid #efd0d5; border-radius: 999px; box-shadow: 0 3px 0 #e9c9d0; }
+.adventure-board .game-run-stats .urgent { background: #fff0f0; border-color: #f39aa0; }
+.game-run-stats + .game-results { border-radius: 20px; background: #fff9ef; }
+.game-results .results-detail { max-width: 520px; line-height: 1.7; }
+@media(max-width:760px){.game-mode-deck{grid-template-columns:1fr;gap:8px}.game-mode-deck button{min-height:90px;padding:12px 14px 11px}.game-mode-deck button>span{position:absolute;left:14px;top:16px}.game-mode-deck b,.game-mode-deck small,.game-mode-deck em{margin-left:42px}.game-mode-deck button.active::after{top:13px}.game-score{align-self:flex-end;margin-top:-62px}.adventure-board .game-run-stats{gap:5px}.adventure-board .game-run-stats span{min-width:61px;padding:6px 6px;font-size:10px}}
+@media(max-width:430px){.game-score{margin-top:-52px}.game-score span{padding:8px 9px;font-size:10px}.adventure-board .game-run-stats{justify-content:space-between}.adventure-board .game-run-stats span{min-width:0;padding-inline:5px}.game-mode-deck button>span{font-size:26px}}
+.mistake-review{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:16px auto 2px;width:min(620px,100%)}.mistake-review button{display:flex;align-items:center;gap:7px;min-height:38px;padding:6px 10px;border:1px solid #efd0d5;border-radius:12px;background:#fff8ef;color:#73536e;cursor:pointer}.mistake-review b{color:#c05e5e;font-size:16px}.mistake-review span{font-size:10px;font-weight:900}.mistake-review i{font-size:11px;font-style:normal}

@@ -9,6 +9,7 @@ import {
   GAME_RUN_LENGTH,
   GAME_START_LIVES,
   resolveAnswer,
+  shieldForStreak,
 } from './game-rules';
 
 type WordExample = { word: string; ipa: string; meaning: string; audio: string };
@@ -95,6 +96,7 @@ type GameSceneKey = 'battle' | 'delivery' | 'maze' | 'builder' | 'pipes' | 'rail
 type StageSceneKey = Exclude<GameSceneKey, 'maze'>;
 type QuestionMode = 'sound' | 'word';
 type QuestionModeSetting = 'mixed' | QuestionMode;
+type GameMode = 'trail' | 'match' | 'spell';
 type GameFeedback = { selected: number; correct: boolean; timedOut?: boolean } | null;
 
 const mainTabs: { id: MainTab; icon: string; label: string }[] = [
@@ -102,6 +104,12 @@ const mainTabs: { id: MainTab; icon: string; label: string }[] = [
   { id: 'learn', icon: '🌈', label: '系统学习' },
   { id: 'catalog', icon: '📚', label: '音标图鉴' },
   { id: 'games', icon: '🎮', label: '游戏乐园' },
+];
+
+const gameModes: { id: GameMode; icon: string; title: string; description: string; hint: string }[] = [
+  { id: 'trail', icon: '🧭', title: '声音寻路', description: '听音，找到正确音标', hint: '先练耳朵' },
+  { id: 'match', icon: '🧩', title: '声音配对', description: '看音标，找到例词', hint: '连接符号和单词' },
+  { id: 'spell', icon: '🪄', title: '拼词工坊', description: '音标与拼写交替挑战', hint: '综合小挑战' },
 ];
 
 const gameScenes: { id: GameSceneKey; icon: string; title: string; description: string }[] = [
@@ -383,6 +391,10 @@ export default function Home() {
   const [gameTimeLeft, setGameTimeLeft] = useState(GAME_QUESTION_SECONDS);
   const [gameStatus, setGameStatus] = useState<'playing' | 'over'>('playing');
   const [gameBest, setGameBest] = useState(0);
+  const [gameMode, setGameMode] = useState<GameMode>('trail');
+  const [gameShield, setGameShield] = useState(false);
+  const [gameMistakes, setGameMistakes] = useState<number[]>([]);
+  const [gameXp, setGameXp] = useState(0);
   const answerGameRef = useRef<(selected: number) => void>(() => undefined);
   const [gameScene, setGameScene] = useState<GameSceneKey>('battle');
   const [questionModeSetting, setQuestionModeSetting] = useState<QuestionModeSetting>('mixed');
@@ -392,7 +404,7 @@ export default function Home() {
   const [sceneProgress, setSceneProgress] = useState<Record<GameSceneKey, number>>(() => Object.fromEntries(gameScenes.map((scene) => [scene.id, 0])) as Record<GameSceneKey, number>);
   const playerRef = useRef<HTMLAudioElement | null>(null);
   const progress = Math.round((learned.length / sounds.length) * 100);
-  const questionMode: QuestionMode = questionModeSetting === 'mixed' ? (gameRound % 2 === 1 ? 'sound' : 'word') : questionModeSetting;
+  const questionMode: QuestionMode = gameMode === 'trail' ? 'sound' : gameMode === 'match' ? 'word' : questionModeSetting === 'mixed' ? (gameRound % 2 === 1 ? 'sound' : 'word') : questionModeSetting;
   const currentScene = gameScenes.find((scene) => scene.id === gameScene) ?? gameScenes[0];
   useEffect(() => { void getCurrentUser().then(setUser); }, []);
 
@@ -477,6 +489,9 @@ export default function Home() {
     setGameTimeLeft(GAME_QUESTION_SECONDS);
     setGameStatus('playing');
     setGameFeedback(null);
+    setGameShield(false);
+    setGameMistakes([]);
+    setGameXp(0);
     setSceneProgress(Object.fromEntries(gameScenes.map((scene) => [scene.id, 0])) as Record<GameSceneKey, number>);
   }
 
@@ -484,19 +499,24 @@ export default function Home() {
     if (gameFeedback || gameStatus !== 'playing') return;
     const timedOut = selected < 0;
     const correct = !timedOut && selected === gameQuestion;
-    const outcome = resolveAnswer({ correct, round: gameRound, lives: gameLives, streak: gameStreak });
+    const shielded = !correct && gameShield;
+    const resolved = resolveAnswer({ correct, round: gameRound, lives: gameLives, streak: gameStreak, shielded });
+    const outcome = resolved;
     setGameFeedback({ selected, correct, timedOut });
     setGameOutcome(randomIndex(3));
     if (correct) {
       setGameScore((score) => score + outcome.score);
       setGameStreak(outcome.streak);
       setGameLives(outcome.lives);
+      setGameXp((xp) => xp + outcome.score + 2);
+      setGameShield(shieldForStreak(outcome.streak));
       setSceneProgress((old) => ({ ...old, [gameScene]: old[gameScene] + 1 }));
       remember(sounds[gameQuestion].index);
     } else {
-      setGameScore((score) => score);
+      setGameMistakes((mistakes) => mistakes.includes(gameQuestion) ? mistakes : [...mistakes, gameQuestion]);
       setGameStreak(outcome.streak);
       setGameLives(outcome.lives);
+      setGameShield(false);
     }
     const nextQuestion = (gameQuestion * 7 + gameRound * 13 + 5) % sounds.length;
     window.setTimeout(() => {
@@ -531,6 +551,12 @@ export default function Home() {
     const choices = gameScenes.filter((scene) => scene.id !== gameScene);
     setRandomSceneMode(true);
     setGameScene(choices[randomIndex(choices.length)].id);
+  }
+
+  function chooseGameMode(mode: GameMode) {
+    if (gameFeedback || gameMode === mode) return;
+    setGameMode(mode);
+    startGame();
   }
 
   function optionLabel(index: number) {
@@ -667,7 +693,9 @@ export default function Home() {
     </section>}
 
     {activeTab === 'games' && <section id="panel-games" role="tabpanel" aria-label="游戏乐园" className="game module-section tab-panel games-page">
-      <div className="section-heading game-heading"><div><span className="section-kicker">SOUND QUEST ARCADE</span><h2>🎮 声音游戏乐园</h2><p>十二种游戏拥有不同任务和反馈。可以指定题型，也可以在“听音选音标”和“根据音标选单词”之间自动交替。</p></div><div className="game-score"><span>⭐ {gameScore}</span><span>🔥 {gameStreak}</span></div></div>
+      <div className="section-heading game-heading"><div><span className="section-kicker">SOUND QUEST ARCADE</span><h2>🎮 声音游戏乐园</h2><p>选一个小任务，让角色带你走完 10 题。每种玩法都在练同一件事：听清声音，再把它和符号、单词连起来。</p></div><div className="game-score"><span>⭐ {gameScore}</span><span>🔥 {gameStreak}</span><span>✨ {gameXp} XP</span></div></div>
+
+      <div className="game-mode-deck" aria-label="选择游戏玩法">{gameModes.map((mode) => <button key={mode.id} className={gameMode === mode.id ? 'active' : ''} onClick={() => chooseGameMode(mode.id)} disabled={Boolean(gameFeedback)}><span>{mode.icon}</span><b>{mode.title}</b><small>{mode.description}</small><em>{mode.hint}</em></button>)}</div>
 
       <div className="question-mode-picker" aria-label="选择题型">
         <span>题型</span>
@@ -682,12 +710,13 @@ export default function Home() {
       </div>
 
       <div className={`game-board adventure-board theme-${gameScene}`}>
-        <div className="game-run-stats" aria-label="本局状态"><span>❤️ {gameLives}</span><span className={gameTimeLeft <= 3 ? 'urgent' : ''}>⏱️ {gameTimeLeft}s</span><span>🔥 {gameStreak} 连击</span><span>🏆 {gameScore}</span></div>
+        <div className="game-run-stats" aria-label="本局状态"><span>❤️ {gameLives}</span><span className={gameTimeLeft <= 3 ? 'urgent' : ''}>⏱️ {gameTimeLeft}s</span><span>🔥 {gameStreak} 连击</span><span>{gameShield ? '🛡️ 护盾' : '○ 护盾未充能'}</span><span>🏆 {gameScore}</span></div>
         {gameStatus === 'over' ? <div className="game-results" role="status">
           <span className="results-badge">探险结算</span>
           <h3>{gameLives > 0 ? '全程通关！' : '差一点就成功了！'}</h3>
           <p>本局得分 <strong>{gameScore}</strong> · 最佳成绩 <strong>{Math.max(gameBest, gameScore)}</strong></p>
-          <p className="results-detail">{gameLives > 0 ? `完成 ${GAME_RUN_LENGTH} 题，连击最高 ${gameStreak}。` : '生命耗尽，听清音标后再来挑战一次。'}</p>
+          <p className="results-detail">{gameLives > 0 ? `完成 ${GAME_RUN_LENGTH} 题，连击最高 ${gameStreak}。` : '生命耗尽，听清音标后再来挑战一次。'}{gameMistakes.length ? ` 还有 ${gameMistakes.length} 个声音放进了复习篮。` : ''}</p>
+          {gameMistakes.length > 0 && <div className="mistake-review" aria-label="本局错题复习">{gameMistakes.slice(0, 4).map((index) => <button key={index} onClick={() => playSound(sounds[index], `review-${index}`)}><b>{sounds[index].symbol}</b><span>{sounds[index].words[0].word}</span><i>🔊</i></button>)}</div>}
           <button className="restart-game" onClick={startGame}>↻ 再来一局</button>
         </div> : <>
           <div className="game-progress"><span>第 {gameRound} / {GAME_RUN_LENGTH} 题</span><div><i style={{ width: `${(gameRound / GAME_RUN_LENGTH) * 100}%` }} /></div><small>{randomSceneMode ? '🎲 随机场景中' : currentScene.title}</small></div>
@@ -709,7 +738,7 @@ export default function Home() {
               </button>;
             })}</div>
           </>}
-          <p className="game-tip">💡 每局 10 题、3 条生命；答对会叠加连击分，倒计时结束或答错会损失生命。迷宫支持键盘方向键。</p>
+          <p className="game-tip">💡 连续答对 3 题会充满护盾；答错的声音会留在本局结算里，方便马上复习。迷宫支持键盘方向键。</p>
         </>}
       </div>
     </section>}

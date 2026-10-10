@@ -92,11 +92,6 @@ function soundByIndex(index: number) {
 
 type MainTab = 'home' | 'learn' | 'catalog' | 'games';
 type LearnTab = 'vowels' | 'consonants' | 'graphemes';
-type GameSceneKey = 'battle' | 'delivery' | 'maze' | 'builder' | 'pipes' | 'railway' | 'robot' | 'garden' | 'bridge' | 'space' | 'pirate' | 'kitchen';
-type StageSceneKey = Exclude<GameSceneKey, 'maze'>;
-type QuestionMode = 'sound' | 'word';
-type QuestionModeSetting = 'mixed' | QuestionMode;
-type GameMode = 'trail' | 'match' | 'spell';
 type GameFeedback = { selected: number; correct: boolean; timedOut?: boolean } | null;
 
 const mainTabs: { id: MainTab; icon: string; label: string }[] = [
@@ -105,89 +100,6 @@ const mainTabs: { id: MainTab; icon: string; label: string }[] = [
   { id: 'catalog', icon: '📚', label: '音标图鉴' },
   { id: 'games', icon: '🎮', label: '游戏乐园' },
 ];
-
-const gameModes: { id: GameMode; icon: string; title: string; description: string; hint: string }[] = [
-  { id: 'trail', icon: '🧭', title: '声音寻路', description: '听音，找到正确音标', hint: '先练耳朵' },
-  { id: 'match', icon: '🧩', title: '声音配对', description: '看音标，找到例词', hint: '连接符号和单词' },
-  { id: 'spell', icon: '🪄', title: '拼词工坊', description: '音标与拼写交替挑战', hint: '综合小挑战' },
-];
-
-const gameScenes: { id: GameSceneKey; icon: string; title: string; description: string }[] = [
-  { id: 'battle', icon: '🧙', title: '怪兽对战', description: '听准声音，释放随机技能' },
-  { id: 'delivery', icon: '🛵', title: '森林快递', description: '送对门牌，遇见兔兔朋友' },
-  { id: 'maze', icon: '🧭', title: '宝藏迷宫', description: '走进 7×7 随机迷宫' },
-  { id: 'builder', icon: '🏗️', title: '起重建房', description: '吊起材料，逐层盖好房子' },
-  { id: 'pipes', icon: '🔧', title: '管道急修', description: '判断裂口，选工具止住水' },
-  { id: 'railway', icon: '🚂', title: '铁路调度', description: '拨动道岔，把列车送到站' },
-  { id: 'robot', icon: '🤖', title: '机器人装配', description: '从传送带挑选正确零件' },
-  { id: 'garden', icon: '🌱', title: '云朵花园', description: '播下声音种子，培育花园' },
-  { id: 'bridge', icon: '🌉', title: '峡谷搭桥', description: '选对桥材，铺路救小动物' },
-  { id: 'space', icon: '🚀', title: '星际对接', description: '校准信标，让飞船安全靠港' },
-  { id: 'pirate', icon: '🏴‍☠️', title: '海盗航线', description: '看海图转舵，驶向藏宝岛' },
-  { id: 'kitchen', icon: '🧁', title: '魔法厨房', description: '按配方投料，完成甜点订单' },
-];
-
-const sceneCopy: Record<StageSceneKey, {
-  success: string[];
-  failure: string[];
-  optionIcons: string[];
-}> = {
-  battle: {
-    optionIcons: ['🔥', '⚡', '❄️'],
-    success: ['火焰飞弹命中！', '闪电连击成功！', '冰晶风暴胜利！'],
-    failure: ['怪兽发动怒吼波！', '怪兽丢来大石头！', '怪兽使出尾巴扫击！'],
-  },
-  delivery: {
-    optionIcons: ['📦', '✉️', '🎁'],
-    success: ['小兔子挥手说谢谢！', '兔兔送你一根胡萝卜！', '兔兔邀请你参加茶会！'],
-    failure: ['大灰狼嗷呜一声！', '狼先生突然打开门！', '大灰狼追着车跑来啦！'],
-  },
-  builder: {
-    optionIcons: ['🧱', '🪵', '🪟'],
-    success: ['砖块稳稳吊到二楼！', '屋梁安装得又直又牢！', '新窗户正好嵌进墙里！'],
-    failure: ['吊错了材料，只能放回去！', '绳扣松开，木料摔裂啦！', '材料尺寸不对，起重机报警！'],
-  },
-  pipes: {
-    optionIcons: ['🔧', '🩹', '🪛'],
-    success: ['扳手拧紧了松动接口！', '密封贴堵住了细小裂缝！', '螺丝刀固定好了阀门！'],
-    failure: ['裂缝变大，水喷出来啦！', '工具不合适，接口还在漏水！', '阀门被拧反，水花四溅！'],
-  },
-  railway: {
-    optionIcons: ['↖️', '⬆️', '↗️'],
-    success: ['道岔切换成功，列车准点进站！', '信号灯变绿，列车安全通过！', '轨道接通，动物乘客到站啦！'],
-    failure: ['道岔拨错，列车停在缓冲垫前！', '红灯亮起，列车需要重新调度！', '轨道没有接通，列车原地鸣笛！'],
-  },
-  robot: {
-    optionIcons: ['🦾', '⚙️', '🔋'],
-    success: ['机械手臂安装完成！', '齿轮严丝合缝地转起来！', '能量电池点亮了机器人！'],
-    failure: ['零件型号不对，传送带退货！', '齿轮卡住，机器人打了个喷嚏！', '电池装反，控制台闪红灯！'],
-  },
-  garden: {
-    optionIcons: ['🌱', '🌷', '🌻'],
-    success: ['声音种子长出了彩虹花！', '云朵洒下雨，花园又开一角！', '向日葵抬头跟你打招呼！'],
-    failure: ['种子睡着了，还没有发芽！', '浇错花盆，只长出一撮杂草！', '乌云吹来，把种子帽吹跑啦！'],
-  },
-  bridge: {
-    optionIcons: ['🪵', '🧱', '🪢'],
-    success: ['新桥板牢牢扣在峡谷上！', '石墩落位，桥面更稳啦！', '绳索拉紧，小动物又前进一步！'],
-    failure: ['桥板太短，掉进软泥里啦！', '石块有裂纹，不能继续使用！', '绳结打错，桥面晃了起来！'],
-  },
-  space: {
-    optionIcons: ['📡', '🛰️', '🧭'],
-    success: ['信标校准，飞船沿光轨进港！', '两艘飞船顺利完成对接！', '导航坐标正确，星星伙伴获救！'],
-    failure: ['坐标偏移，飞船绕站一圈！', '信号连上了小行星，只好紧急断开！', '光轨方向反了，飞船启动刹车！'],
-  },
-  pirate: {
-    optionIcons: ['🗺️', '🧭', '🔭'],
-    success: ['船舵转对方向，抵达藏宝岛！', '罗盘指针锁定了黄金海湾！', '望远镜里出现闪亮宝箱！'],
-    failure: ['航线绕进漩涡，只好掉头！', '罗盘看反，驶到了螃蟹礁！', '只找到一只漂流的旧靴子！'],
-  },
-  kitchen: {
-    optionIcons: ['🥚', '🍓', '🥛'],
-    success: ['蛋糕蓬蓬地出炉啦！', '饼干变成了小星星！', '魔法布丁闪闪发光！'],
-    failure: ['配方放错，锅里冒出紫色泡泡！', '投料顺序错了，面团变成黏黏怪！', '烤箱打了一个大喷嚏！'],
-  },
-};
 
 const MAZE_SIZE = 7;
 
@@ -241,20 +153,27 @@ function randomIndex(length: number) {
 function MazeGame({
   round,
   options,
+  correct,
   feedback,
   labelFor,
   onAnswer,
+  onCollect,
 }: {
   round: number;
   options: number[];
+  correct: number;
   feedback: GameFeedback;
   labelFor: (index: number) => string;
   onAnswer: (index: number) => void;
+  onCollect: () => void;
 }) {
   const maze = useMemo(() => buildMaze(round), [round]);
   const [position, setPosition] = useState(maze.start);
   const [trail, setTrail] = useState(() => new Set([`${maze.start.x}-${maze.start.y}`]));
   const [bumped, setBumped] = useState(false);
+  const [collected, setCollected] = useState<Set<string>>(() => new Set());
+  const [hintUsed, setHintUsed] = useState(false);
+  const gems = useMemo(() => [...maze.cells].filter((cell) => cell.includes('-') && !cell.endsWith('-0')).slice(2, 5), [maze]);
   const wrongFinds = ['🪵 烂树根', '🍾 空瓶子', '🥄 生锈汤勺', '🧦 单只旧袜子', '🥥 空椰子壳'];
 
   const move = useCallback((dx: number, dy: number) => {
@@ -267,9 +186,14 @@ function MazeGame({
     }
     setPosition(next);
     setTrail((old) => new Set(old).add(`${next.x}-${next.y}`));
+    const cellKey = `${next.x}-${next.y}`;
+    if (gems.includes(cellKey) && !collected.has(cellKey)) {
+      setCollected((old) => new Set(old).add(cellKey));
+      onCollect();
+    }
     const exitIndex = maze.exits.findIndex((exit) => exit.x === next.x && exit.y === next.y);
     if (exitIndex >= 0) onAnswer(options[exitIndex]);
-  }, [feedback, maze, onAnswer, options, position]);
+  }, [collected, feedback, gems, maze, onAnswer, onCollect, options, position]);
 
   useEffect(() => {
     const keyMap: Record<string, [number, number]> = {
@@ -285,8 +209,10 @@ function MazeGame({
     return () => window.removeEventListener('keydown', handleKey);
   }, [move]);
 
+  const correctExit = options.indexOf(correct);
   return <div className="maze-shell">
-    <div className="maze-legend"><span>起点 🦁</span><b>走过的路会留下脚印</b><span>三条出口</span></div>
+    <div className="maze-legend"><span>起点 🦁</span><b>💎 {collected.size}/{gems.length} 宝石</b><span>三条出口</span></div>
+    <div className="maze-tools"><span>{hintUsed ? `出口 ${correctExit + 1} 已标亮` : '找不到路？可以用一次出口提示'}</span><button onClick={() => setHintUsed(true)} disabled={hintUsed || Boolean(feedback)}>🧭 提示出口</button></div>
     <div className={`maze-grid ${bumped ? 'bumped' : ''}`} aria-label="7乘7宝藏迷宫">
       {Array.from({ length: maze.size * maze.size }, (_, index) => {
         const x = index % maze.size;
@@ -297,7 +223,9 @@ function MazeGame({
         const isVisited = trail.has(`${x}-${y}`);
         return <div className={`${isRoad ? 'maze-cell road' : 'maze-cell hedge'} ${isVisited ? 'visited' : ''}`} key={`${x}-${y}`}>
           {!isRoad && <span>{(x * maze.size + y + round) % 11 === 0 ? '🌼' : '🌿'}</span>}
-          {exitIndex >= 0 && <b className="maze-exit">{labelFor(options[exitIndex])}</b>}
+          {exitIndex >= 0 && <b className={`maze-exit ${hintUsed && exitIndex === correctExit ? 'hinted' : ''}`}>{labelFor(options[exitIndex])}</b>}
+          {isRoad && gems.includes(`${x}-${y}`) && !collected.has(`${x}-${y}`) && <span className="maze-gem">💎</span>}
+          {isRoad && collected.has(`${x}-${y}`) && <span className="maze-collected">✨</span>}
           {isRoad && isVisited && !isHero && <i className="maze-footstep">·</i>}
           {isHero && <span className="maze-hero">🦁</span>}
         </div>;
@@ -317,105 +245,6 @@ function MazeGame({
   </div>;
 }
 
-function MatchGame({ options, feedback, labelFor, onAnswer }: { options: number[]; feedback: GameFeedback; labelFor: (index: number) => string; onAnswer: (index: number) => void }) {
-  const [revealed, setRevealed] = useState<number | null>(null);
-  const choose = (index: number) => {
-    if (feedback || revealed !== null) return;
-    setRevealed(index);
-    window.setTimeout(() => onAnswer(index), 620);
-  };
-  return <div className="match-game" aria-label="声音配对游戏">
-    <div className="match-prompt"><span>🗝️ 声音宝箱</span><b>点开一个宝箱，看看里面是不是目标单词</b><small>先观察，再做决定</small></div>
-    <div className="match-chests">{options.map((index) => {
-      const open = revealed === index || (feedback?.correct && index === options.find((option) => option === index));
-      return <button key={index} className={`match-chest ${open ? 'open' : ''} ${feedback?.selected === index ? (feedback.correct ? 'correct' : 'wrong') : ''}`} onClick={() => choose(index)} disabled={Boolean(feedback)}>
-        <span>{open ? '📖' : '🎁'}</span><b>{open ? labelFor(index) : '???'}</b><small>{open ? '听一听，再确认' : '点击揭晓'}</small>
-      </button>;
-    })}</div>
-    <p className="match-hint">每次只打开一个宝箱，选中后会自动判断配对结果。</p>
-  </div>;
-}
-
-function SpellGame({ correct, options, feedback, onAnswer }: { correct: number; options: number[]; feedback: GameFeedback; onAnswer: (index: number) => void }) {
-  const target = sounds[correct].words[0].word.toLowerCase();
-  const tiles = useMemo(() => {
-    const chars = target.split('').map((char, id) => ({ id, char }));
-    const decoys = ['a', 'e', 'i', 'o', 'u'].filter((char) => !target.includes(char)).slice(0, 2).map((char, id) => ({ id: target.length + id, char }));
-    return [...chars, ...decoys].sort((a, b) => ((a.id + 3) * 17 + target.length) % 11 - ((b.id + 3) * 17 + target.length) % 11);
-  }, [target]);
-  const [picked, setPicked] = useState<number[]>([]);
-  const answer = () => {
-    if (picked.length !== target.length || feedback) return;
-    const word = picked.map((id) => tiles.find((tile) => tile.id === id)?.char ?? '').join('');
-    onAnswer(word === target ? correct : options.find((index) => index !== correct) ?? correct);
-  };
-  return <div className="spell-game" aria-label="拼词工坊游戏">
-    <div className="spell-prompt"><span>🪄 拼词工坊</span><b>听音标、看意思，把单词拼出来</b><small>{sounds[correct].symbol} · {sounds[correct].words[0].meaning}</small></div>
-    <div className="spell-slots" aria-label="已选择的字母">{Array.from({ length: target.length }, (_, slot) => <span key={slot}>{tiles.find((tile) => tile.id === picked[slot])?.char ?? '·'}</span>)}</div>
-    <div className="spell-tiles">{tiles.map((tile) => <button key={tile.id} className={picked.includes(tile.id) ? 'picked' : ''} onClick={() => setPicked((old) => old.includes(tile.id) ? old : [...old, tile.id])} disabled={Boolean(feedback) || picked.includes(tile.id)}>{tile.char}</button>)}</div>
-    <div className="spell-actions"><button className="spell-undo" onClick={() => setPicked((old) => old.slice(0, -1))} disabled={Boolean(feedback) || picked.length === 0}>⌫ 撤回</button><button className="spell-check" onClick={answer} disabled={Boolean(feedback) || picked.length !== target.length}>✨ 检查拼写</button></div>
-    <p className="spell-hint">字母顺序很重要，拼好后点击检查。</p>
-  </div>;
-}
-
-function SceneStage({ scene, feedback, outcome, progress }: { scene: StageSceneKey; feedback: GameFeedback; outcome: number; progress: number }) {
-  const copy = sceneCopy[scene];
-  const state = feedback ? (feedback.correct ? 'success' : 'failure') : 'waiting';
-  const message = feedback ? (feedback.correct ? copy.success[outcome % 3] : copy.failure[outcome % 3]) : '听清题目，选一个答案开始行动！';
-  const className = `mission-stage mission-${scene} state-${state} variant-${outcome % 3}`;
-  const caption = <p className="mission-caption">{message}</p>;
-
-  if (scene === 'battle') return <div className={className} aria-live="polite">
-    <span className="battle-wizard">🧙‍♀️</span><span className="battle-spell">{feedback ? (feedback.correct ? ['🔥', '⚡', '❄️'][outcome % 3] : ['🌪️', '🪨', '💨'][outcome % 3]) : '✨'}</span><span className="battle-monster">👾</span>{caption}
-  </div>;
-
-  if (scene === 'delivery') return <div className={className} aria-live="polite">
-    <span className="delivery-scooter">🛵<i>📦</i></span><span className="delivery-path"/><span className="delivery-home">🏠</span><span className="delivery-reveal">{feedback ? (feedback.correct ? ['🐰', '🐇', '🥕'][outcome % 3] : '🐺') : '❓'}</span>{caption}
-  </div>;
-
-  if (scene === 'builder') return <div className={className} aria-live="polite">
-    <div className="builder-crane"><span>🏗️</span><i/><b>{feedback ? (feedback.correct ? ['🧱', '🪵', '🪟'][outcome % 3] : ['🪨', '💔', '📦'][outcome % 3]) : '📦'}</b></div>
-    <div className="builder-house" aria-label={`房屋完成 ${Math.min(progress, 4)} 部分`}>{[0, 1, 2, 3].map((part) => <i className={part < Math.min(progress, 4) ? 'built' : ''} key={part}/>) }<span>🏠</span></div>
-    <b className="mission-meter">建造进度 {Math.min(progress, 4)}/4</b>{caption}
-  </div>;
-
-  if (scene === 'pipes') return <div className={className} aria-live="polite">
-    <div className="pipe-network">{[0, 1, 2, 3].map((joint) => <i className={joint < Math.min(progress, 4) ? 'fixed' : joint === Math.min(progress, 4) ? 'leaking' : ''} key={joint}/>)}</div>
-    <span className="pipe-tool">{feedback ? (feedback.correct ? ['🔧', '🩹', '🪛'][outcome % 3] : '🔨') : '🧰'}</span><span className="water-spray">💦</span>
-    <b className="mission-meter">已修复 {Math.min(progress, 4)}/4 个漏点</b>{caption}
-  </div>;
-
-  if (scene === 'railway') return <div className={className} aria-live="polite">
-    <span className="rail-signal">{feedback?.correct ? '🟢' : feedback ? '🔴' : '🟡'}</span><div className="rail-tracks"><i/><i/><i/></div><span className="rail-train">🚂</span><span className="rail-station">🚉</span>{caption}
-  </div>;
-
-  if (scene === 'robot') return <div className={className} aria-live="polite">
-    <div className="robot-belt"><span>⚙️</span><span>🔋</span><span>🦾</span></div><span className="robot-body">{progress >= 4 ? '🤖' : '🦿'}</span><span className="robot-part">{feedback ? (feedback.correct ? ['🦾', '⚙️', '🔋'][outcome % 3] : '❌') : '🔩'}</span>
-    <b className="mission-meter">装配进度 {Math.min(progress, 4)}/4</b>{caption}
-  </div>;
-
-  if (scene === 'garden') return <div className={className} aria-live="polite">
-    <span className="garden-cloud">☁️</span><span className="watering-can">{feedback?.correct ? '🚿' : '🪣'}</span><div className="garden-plants">{[0, 1, 2, 3, 4].map((plant) => <i key={plant}>{plant < Math.min(progress, 5) ? ['🌱', '🌷', '🌻'][plant % 3] : '🟤'}</i>)}</div><span className="garden-weed">{feedback && !feedback.correct ? '🌵' : ''}</span>{caption}
-  </div>;
-
-  if (scene === 'bridge') return <div className={className} aria-live="polite">
-    <span className="bridge-left">🦁</span><span className="bridge-right">🐿️</span><div className="bridge-deck">{[0, 1, 2, 3, 4].map((board) => <i className={board < Math.min(progress, 5) ? 'placed' : ''} key={board}/>)}</div><span className="bridge-piece">{feedback ? (feedback.correct ? '🪵' : '💥') : '🧰'}</span>
-    <b className="mission-meter">桥面完成 {Math.min(progress, 5)}/5</b>{caption}
-  </div>;
-
-  if (scene === 'space') return <div className={className} aria-live="polite">
-    <span className="space-stars">✦　·　🪐　·　✧</span><div className="space-orbit"/><span className="space-ship">🚀</span><span className="space-station">🛰️</span><span className="space-rock">{feedback && !feedback.correct ? '☄️' : ''}</span>{caption}
-  </div>;
-
-  if (scene === 'pirate') return <div className={className} aria-live="polite">
-    <div className="pirate-route">·　·　·　·　✕</div><span className="pirate-ship">⛵</span><span className="pirate-island">🏝️</span><span className="pirate-find">{feedback ? (feedback.correct ? '💰' : ['🥾', '🦀', '🌿'][outcome % 3]) : '🗺️'}</span>{caption}
-  </div>;
-
-  return <div className={className} aria-live="polite">
-    <div className="kitchen-order">订单：{['🎂', '⭐', '🍮'][outcome % 3]}</div><span className="kitchen-chef">🧑‍🍳</span><span className="kitchen-ingredient">{feedback ? (feedback.correct ? ['🥚', '🍓', '🥛'][outcome % 3] : '🧦') : '❓'}</span><span className="kitchen-pot">🫕</span><span className="kitchen-result">{feedback ? (feedback.correct ? ['🎂', '🍪', '🍮'][outcome % 3] : '🫧') : ''}</span>{caption}
-  </div>;
-}
-
 export default function Home() {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [activeTab, setActiveTab] = useState<MainTab>('home');
@@ -432,21 +261,13 @@ export default function Home() {
   const [gameTimeLeft, setGameTimeLeft] = useState(GAME_QUESTION_SECONDS);
   const [gameStatus, setGameStatus] = useState<'playing' | 'over'>('playing');
   const [gameBest, setGameBest] = useState(0);
-  const [gameMode, setGameMode] = useState<GameMode>('trail');
   const [gameShield, setGameShield] = useState(false);
   const [gameMistakes, setGameMistakes] = useState<number[]>([]);
   const [gameXp, setGameXp] = useState(0);
   const answerGameRef = useRef<(selected: number) => void>(() => undefined);
-  const [gameScene, setGameScene] = useState<GameSceneKey>('battle');
-  const [questionModeSetting, setQuestionModeSetting] = useState<QuestionModeSetting>('mixed');
-  const [randomSceneMode, setRandomSceneMode] = useState(false);
-  const [gameOutcome, setGameOutcome] = useState(0);
   const [gameFeedback, setGameFeedback] = useState<GameFeedback>(null);
-  const [sceneProgress, setSceneProgress] = useState<Record<GameSceneKey, number>>(() => Object.fromEntries(gameScenes.map((scene) => [scene.id, 0])) as Record<GameSceneKey, number>);
   const playerRef = useRef<HTMLAudioElement | null>(null);
   const progress = Math.round((learned.length / sounds.length) * 100);
-  const questionMode: QuestionMode = gameMode === 'trail' ? 'sound' : gameMode === 'match' ? 'word' : questionModeSetting === 'mixed' ? (gameRound % 2 === 1 ? 'sound' : 'word') : questionModeSetting;
-  const currentScene = gameScenes.find((scene) => scene.id === gameScene) ?? gameScenes[0];
   useEffect(() => { void getCurrentUser().then(setUser); }, []);
 
   useEffect(() => {
@@ -533,7 +354,6 @@ export default function Home() {
     setGameShield(false);
     setGameMistakes([]);
     setGameXp(0);
-    setSceneProgress(Object.fromEntries(gameScenes.map((scene) => [scene.id, 0])) as Record<GameSceneKey, number>);
   }
 
   function answerGame(selected: number) {
@@ -544,14 +364,12 @@ export default function Home() {
     const resolved = resolveAnswer({ correct, round: gameRound, lives: gameLives, streak: gameStreak, shielded });
     const outcome = resolved;
     setGameFeedback({ selected, correct, timedOut });
-    setGameOutcome(randomIndex(3));
     if (correct) {
       setGameScore((score) => score + outcome.score);
       setGameStreak(outcome.streak);
       setGameLives(outcome.lives);
       setGameXp((xp) => xp + outcome.score + 2);
       setGameShield(shieldForStreak(outcome.streak));
-      setSceneProgress((old) => ({ ...old, [gameScene]: old[gameScene] + 1 }));
       remember(sounds[gameQuestion].index);
     } else {
       setGameMistakes((mistakes) => mistakes.includes(gameQuestion) ? mistakes : [...mistakes, gameQuestion]);
@@ -570,10 +388,6 @@ export default function Home() {
       setGameQuestion(nextQuestion === gameQuestion ? (nextQuestion + 1) % sounds.length : nextQuestion);
       setGameTimeLeft(GAME_QUESTION_SECONDS);
       setGameFeedback(null);
-      if (randomSceneMode) {
-        const choices = gameScenes.filter((scene) => scene.id !== gameScene);
-        setGameScene(choices[randomIndex(choices.length)].id);
-      }
     }, 1500);
   }
 
@@ -581,27 +395,8 @@ export default function Home() {
     answerGameRef.current = answerGame;
   });
 
-  function chooseScene(scene: GameSceneKey) {
-    if (gameFeedback) return;
-    setRandomSceneMode(false);
-    setGameScene(scene);
-  }
-
-  function chooseRandomScene() {
-    if (gameFeedback) return;
-    const choices = gameScenes.filter((scene) => scene.id !== gameScene);
-    setRandomSceneMode(true);
-    setGameScene(choices[randomIndex(choices.length)].id);
-  }
-
-  function chooseGameMode(mode: GameMode) {
-    if (gameFeedback || gameMode === mode) return;
-    setGameMode(mode);
-    startGame();
-  }
-
   function optionLabel(index: number) {
-    return questionMode === 'sound' ? sounds[index].symbol : sounds[index].words[0].word;
+    return sounds[index].symbol;
   }
 
   function renderSoundGrid(items: SoundItem[], prefix: string) {
@@ -673,7 +468,7 @@ export default function Home() {
         <article className="game-preview-card">
           <div><span>本次推荐</span><h2>🎲 十二种玩法随机冒险</h2><p>走迷宫、盖房子、修管道、调火车、装机器人……每个游戏都有独立任务、进度和反馈动画。</p></div>
           <div className="preview-icons">🧙 🧭 🏗️ 🔧 🚂 🤖</div>
-          <button onClick={() => { chooseRandomScene(); openTab('games'); }}>随机来一局 →</button>
+          <button onClick={() => { startGame(); openTab('games'); }}>随机来一局 →</button>
         </article>
       </section>
     </div>}
@@ -734,23 +529,11 @@ export default function Home() {
     </section>}
 
     {activeTab === 'games' && <section id="panel-games" role="tabpanel" aria-label="游戏乐园" className="game module-section tab-panel games-page">
-      <div className="section-heading game-heading"><div><span className="section-kicker">SOUND QUEST ARCADE</span><h2>🎮 声音游戏乐园</h2><p>选一个小任务，让角色带你走完 10 题。每种玩法都在练同一件事：听清声音，再把它和符号、单词连起来。</p></div><div className="game-score"><span>⭐ {gameScore}</span><span>🔥 {gameStreak}</span><span>✨ {gameXp} XP</span></div></div>
+      <div className="section-heading game-heading"><div><span className="section-kicker">SOUND QUEST MAZE</span><h2>🎮 声音寻路大冒险</h2><p>这是音标探险岛的唯一游戏：在迷宫里收集宝石，听清声音后走到正确出口。</p></div><div className="game-score"><span>⭐ {gameScore}</span><span>🔥 {gameStreak}</span><span>✨ {gameXp} XP</span></div></div>
 
-      <div className="game-mode-deck" aria-label="选择游戏玩法">{gameModes.map((mode) => <button key={mode.id} className={gameMode === mode.id ? 'active' : ''} onClick={() => chooseGameMode(mode.id)} disabled={Boolean(gameFeedback)}><span>{mode.icon}</span><b>{mode.title}</b><small>{mode.description}</small><em>{mode.hint}</em></button>)}</div>
+      <div className="maze-game-intro"><span>🧭 唯一玩法 · 声音寻路</span><b>听清声音，穿过迷宫，找到正确出口</b><small>每一关都有宝石、路线和一个需要你做出的声音判断。</small></div>
 
-      {gameMode === 'trail' && <div className="question-mode-picker" aria-label="选择题型">
-        <span>题型</span>
-        <button className={questionModeSetting === 'mixed' ? 'active' : ''} onClick={() => setQuestionModeSetting('mixed')} disabled={Boolean(gameFeedback)}>🔀 混合交替</button>
-        <button className={questionModeSetting === 'sound' ? 'active' : ''} onClick={() => setQuestionModeSetting('sound')} disabled={Boolean(gameFeedback)}>🔊 听音选音标</button>
-        <button className={questionModeSetting === 'word' ? 'active' : ''} onClick={() => setQuestionModeSetting('word')} disabled={Boolean(gameFeedback)}>🔤 看音标选单词</button>
-      </div>}
-
-      {gameMode === 'trail' && <div className="scene-picker" aria-label="选择游戏场景">
-        <button className={`random-scene ${randomSceneMode ? 'active' : ''}`} onClick={chooseRandomScene} disabled={Boolean(gameFeedback)}><span>🎲</span><b>随机来一局</b><small>每题自动换场景</small></button>
-        {gameScenes.map((scene) => <button key={scene.id} className={gameScene === scene.id && !randomSceneMode ? 'active' : ''} onClick={() => chooseScene(scene.id)} disabled={Boolean(gameFeedback)}><span>{scene.icon}</span><b>{scene.title}</b><small>{scene.description}</small></button>)}
-      </div>}
-
-      <div className={`game-board adventure-board theme-${gameScene}`}>
+      <div className="game-board adventure-board theme-maze">
         <div className="game-run-stats" aria-label="本局状态"><span>❤️ {gameLives}</span><span className={gameTimeLeft <= 3 ? 'urgent' : ''}>⏱️ {gameTimeLeft}s</span><span>🔥 {gameStreak} 连击</span><span>{gameShield ? '🛡️ 护盾' : '○ 护盾未充能'}</span><span>🏆 {gameScore}</span></div>
         {gameStatus === 'over' ? <div className="game-results" role="status">
           <span className="results-badge">探险结算</span>
@@ -760,26 +543,12 @@ export default function Home() {
           {gameMistakes.length > 0 && <div className="mistake-review" aria-label="本局错题复习">{gameMistakes.slice(0, 4).map((index) => <button key={index} onClick={() => playSound(sounds[index], `review-${index}`)}><b>{sounds[index].symbol}</b><span>{sounds[index].words[0].word}</span><i>🔊</i></button>)}</div>}
           <button className="restart-game" onClick={startGame}>↻ 再来一局</button>
         </div> : <>
-          <div className="game-progress"><span>第 {gameRound} / {GAME_RUN_LENGTH} 题</span><div><i style={{ width: `${(gameRound / GAME_RUN_LENGTH) * 100}%` }} /></div><small>{randomSceneMode ? '🎲 随机场景中' : currentScene.title}</small></div>
-          <div className="question-heading"><span>{questionMode === 'sound' ? '听音辨认' : '单词侦探'}</span><h3>{questionMode === 'sound' ? '听一听，选出正确的音标' : <>哪个单词包含 <strong>{sounds[gameQuestion].symbol}</strong> 这个音？</>}</h3></div>
-          <button className={`treasure-sound ${playing === 'game-question' ? 'playing' : ''}`} onClick={() => playSound(sounds[gameQuestion], 'game-question', false)}><span>🔊</span><b>{questionMode === 'sound' ? '点击听题目' : `听听 ${sounds[gameQuestion].symbol}`}</b><small>可以重复播放</small></button>
+          <div className="game-progress"><span>第 {gameRound} / {GAME_RUN_LENGTH} 关</span><div><i style={{ width: `${(gameRound / GAME_RUN_LENGTH) * 100}%` }} /></div><small>宝石越多，探险奖励越高</small></div>
+          <div className="question-heading"><span>声音守门人</span><h3>听一听，找到正确的音标出口</h3></div>
+          <button className={`treasure-sound ${playing === 'game-question' ? 'playing' : ''}`} onClick={() => playSound(sounds[gameQuestion], 'game-question', false)}><span>🔊</span><b>点击听守门人的声音</b><small>可以重复播放</small></button>
 
-          {gameMode === 'match' ? <MatchGame key={gameRound} options={gameOptions} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} /> : gameMode === 'spell' ? <SpellGame key={gameRound} correct={gameQuestion} options={gameOptions} feedback={gameFeedback} onAnswer={answerGame} /> : gameScene === 'maze' ? <MazeGame key={gameRound} round={gameRound} options={gameOptions} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} /> : <>
-            <SceneStage scene={gameScene} feedback={gameFeedback} outcome={gameOutcome} progress={sceneProgress[gameScene]} />
-            <div className={`game-options scene-options options-${gameScene}`}>{gameOptions.map((index, optionIndex) => {
-              const item = sounds[index];
-              const isCorrect = gameFeedback && index === gameQuestion;
-              const isWrong = gameFeedback && gameFeedback.selected === index && !gameFeedback.correct;
-              const copy = sceneCopy[gameScene];
-              return <button key={`${gameRound}-${index}`} className={isCorrect ? 'correct' : isWrong ? 'wrong' : ''} onClick={() => answerGame(index)} disabled={Boolean(gameFeedback)}>
-                <i>{copy.optionIcons[optionIndex]}</i>
-                <strong>{questionMode === 'sound' ? item.symbol : item.words[0].word}</strong>
-                <span>{questionMode === 'sound' ? soundGroup(item) : gameFeedback ? `${item.words[0].ipa} · ${item.words[0].meaning}` : item.words[0].meaning}</span>
-                {isCorrect && <em>答对啦！</em>}{isWrong && <em>{gameFeedback?.timedOut ? '超时了' : '再听一听'}</em>}
-              </button>;
-            })}</div>
-          </>}
-          <p className="game-tip">💡 连续答对 3 题会充满护盾；答错的声音会留在本局结算里，方便马上复习。迷宫支持键盘方向键。</p>
+          <MazeGame key={gameRound} round={gameRound} options={gameOptions} correct={gameQuestion} feedback={gameFeedback} labelFor={optionLabel} onAnswer={answerGame} onCollect={() => { setGameXp((xp) => xp + 2); setGameScore((score) => score + 1); }} />
+          <p className="game-tip">💡 先找路上的宝石，再走到顶部出口；连续答对 3 关会获得护盾。迷宫支持键盘方向键。</p>
         </>}
       </div>
     </section>}
